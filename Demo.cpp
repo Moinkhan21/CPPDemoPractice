@@ -45,5 +45,31 @@ int main() {
         cout << remainder << " " << endl;
     }
 
+    int digit[] = { 8, 2, 3, 7};
+
+    int ans = 0;
+
+    for(int i = 0; i < 4; i++) {
+        ans = (ans * 10) + digit[i];
+    }
+
+    cout << ans << endl;
+
+    int m = 3;
+
+    int answer = 0;
+
+    while(m != 0) {
+        if(m & 1) {
+            //found one set bit, so increment set bit count
+            answer += 1;
+        }
+
+        //right shift
+        m = m >> 1;
+    }
+
+    cout << "Number of set bits: " << answer << endl;
+
     return 0;
 }
