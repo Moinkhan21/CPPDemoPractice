@@ -71,5 +71,13 @@ int main() {
 
     cout << "Number of set bits: " << answer << endl;
 
+    int km;
+    cout << "Enter a number in kilometers: " << endl;
+    cin >> km;
+
+    cout << "The number in meters is: " << km * 1000 << endl;
+    cout << "The number in centimeters is: " << km * 100000 << endl;
+    cout << "The number in miles is: " << km * (1/1.6) << endl;
+
     return 0;
 }
