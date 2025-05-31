@@ -12,10 +12,10 @@ int main() {
     int a = 5, b = 10;
 
     int ans1 = (++a) * (--b);
-    cout << "Result of (++a) * (b--): " << ans1 << endl;
+    cout << "Result of (++a) * (--b): " << ans1 << endl;
 
     int ans2 = (++a) * (b--);
-    cout << "Result of (a++) * (b--): " << ans2 << endl;
+    cout << "Result of (++a) * (b--): " << ans2 << endl;
 
     int ans3 = (a++) * (--b);
     cout << "Result of (a++) * (--b): " << ans3 << endl;
