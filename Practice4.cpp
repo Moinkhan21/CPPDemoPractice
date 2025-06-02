@@ -65,4 +65,32 @@ int main() {
         }
         cout << endl;  // Move to the next row
     }
+
+    // Separator lines for clarity between patterns
+    cout << "----------------------------------------" << endl;
+    cout << "----------------------------------------" << endl;
+    cout << "----------------------------------------" << endl;
+
+    int a = 1; 
+    for(int i = 0; i < n; i++) {
+        for(int j=0; j<=i; j++) {
+            cout << a << " ";  // Print the current number with a space
+            a++;  // Increment the number for the next print
+        }
+        cout << endl;  // Move to the next row
+    }
+
+        // Separator lines for clarity between patterns
+    cout << "----------------------------------------" << endl;
+    cout << "----------------------------------------" << endl;
+    cout << "----------------------------------------" << endl;
+
+    for(int i=1; i<=n; i++) {
+        int d=1;
+        for(int j=1; j<=i; j++) {
+            cout << d << " ";  // Print the current number with a space
+            d = d*(i-j)/j;  // Calculate the next number in the row using binomial coefficient logic
+        }
+        cout << endl;  // Move to the next row
+    }
 }
