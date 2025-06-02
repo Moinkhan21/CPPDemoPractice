@@ -116,4 +116,27 @@ int main() {
         }
         cout << endl;
     }
+
+    // Separator lines for clarity between patterns
+    cout << "----------------------------------------" << endl;
+    cout << "----------------------------------------" << endl;
+    cout << "----------------------------------------" << endl;
+
+    // ---------------- Pattern 4 ----------------
+    // Print a solid diamond shape with stars
+
+    for(int i = 0; i < 2*n-1; i++) {
+        // int cond = 0;
+        // if(i<n) {
+        //     cond = i;
+        // }
+        // else {
+        //     cond = n - (i%n) -2;
+        // }
+        int cond = i < n ? i : n - (i % n) - 2;
+        for(int j=0; j<= cond; j++) {
+            cout << "*";  // Print stars for the diamond shape
+        }
+        cout << endl;  // Move to next row
+    }
 }
