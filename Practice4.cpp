@@ -47,5 +47,22 @@ int main() {
         cout << endl;   // Move to the next row
     }
 
-    return 0;
+    
+    // Separator lines for clarity between patterns
+    cout << "----------------------------------------" << endl;
+    cout << "----------------------------------------" << endl;
+    cout << "----------------------------------------" << endl;
+
+    for (int i=0; i<n; i++) {
+        int cond = i <= n/2 ? 2*i : 2*(n-i-1);  // Calculate the condition for the number of elements in each row
+        for(int j=0; j<=cond; j++) {
+            if(j<=cond/2) {
+                cout << j+1;
+            }
+            else {
+                cout << cond - j + 1;  // Print decreasing numbers after the middle
+            }
+        }
+        cout << endl;  // Move to the next row
+    }
 }
