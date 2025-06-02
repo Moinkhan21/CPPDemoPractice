@@ -18,6 +18,9 @@ int main() {
         for(int j = 0; j <= i; j++) {
             cout << c;  // Print the current number
             c++;        // Increment number for next print
+            if (j<i) {
+                cout << "*";  // Print a star after each number except the last in the row
+            }
         }
         cout << endl;   // Move to the next row
     }
@@ -34,6 +37,9 @@ int main() {
         for(int j = 0; j <= n - i - 1; j++) {
             cout << k;  // Print the current number
             k++;        // Increment for next column in the row
+            if(j < n - i - 1) {
+                cout << "*";  // Print a star after each number except the last in the row
+            }
         }
         // Update 'start' for the next row:
         // Each time, decrease by the number of elements printed in the current row
