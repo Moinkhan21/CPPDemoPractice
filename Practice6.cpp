@@ -9,6 +9,14 @@ bool checkEven(int n) {
     }
 }
 
+bool checkOdd(int num) {
+    if ((num&1) != 0) {  // Check if the number is even
+        return true;   // Return true if even
+    } else {
+        return false;  // Return false if odd
+    }
+}
+
 float circle_area(float radius){
         float area = 3.14 * radius * radius;  // Calculate the area of the circle
         return area;  // Return the calculated area
@@ -28,5 +36,15 @@ int main() {
         cout << n << " is even number." << endl;  // Output if the number is even
     } else {
         cout << n << " is odd number." << endl;  // Output if the number is odd
+    }
+
+    int num;
+    cin >> num;
+    bool isOdd = checkOdd(num);  // Check if the number is even
+
+    if (isOdd) {
+        cout << num << " is odd number." << endl;  // Output if the number is even
+    } else {
+        cout << num << " is even number." << endl;  // Output if the number is odd
     }
 }
