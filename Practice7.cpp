@@ -24,5 +24,12 @@ int main() {
         cout << n << " is not a prime number." << endl;  // Output if the number is not prime
     }
 
+    cout << "This is list of Prime number: " << endl;  // Output header for prime numbers list
+    for(int i = 2; i <=n; i++) {
+        bool isiPrime = checkPrime(i);  // Check if each number from 1 to n is prime
+        if(isiPrime) {
+            cout << i << " ";
+        }
+    }
     return 0;  // Return success
 }
