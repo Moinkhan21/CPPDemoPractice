@@ -5,6 +5,7 @@ int main() {
     int n;
     cin >> n;  
 
+
     for(int i = 0; i < 2*n; i++) {
         int cond = i<n ? i: n + (n - i - 1);
         int space_count = i<n ? 2*(n - cond - 1) : i - cond - 1;
@@ -22,4 +23,6 @@ int main() {
         }
         cout << endl;  // Move to the next row
     }      
+
+    
 }
