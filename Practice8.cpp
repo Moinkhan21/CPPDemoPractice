@@ -36,13 +36,26 @@ int reverse(int x) {
     return isNegative ? -ans : ans;
 }
 
+int setKthBit(int n, int k) {
+    int mask = 1 << k;  // Create a mask with the k-th bit set
+    int ans = n | mask;   // Set the k-th bit in n
+    return ans;  // Return the modified number
+}
+
 int main() {
     int num;
     cout << "Enter an integer to reverse: ";
     cin >> num;
 
+    int n;
+    cout << "Enter a number: ";
+    cin >> n;
+
     int reversed = reverse(num);
     cout << "Reversed number: " << reversed << endl;
+
+    int maskedNumber = setKthBit(n, 1);
+    cout << "Number after setting the 2nd bit: " << maskedNumber << endl;
 
     return 0;
 }
