@@ -1,68 +1,69 @@
 #include <iostream>
 using namespace std;
 
+// Function to calculate the factorial of a number
 long long int factorial(long long int n) {
+    long long int fact = 1;  // Initialize factorial result
 
-    long long int fact = 1;  // Initialize factorial to 1
-
-    if (n == 0 || n == 1) {  // Base case: factorial of 0 or 1 is 1
-        return 1;            // Return 1 for base case
+    if (n == 0 || n == 1) {
+        return 1;  // Factorial of 0 or 1 is always 1
     } else {
-        for(int i = 1; i <= n; i++) { // Loop from 0 to n-1
-            fact = fact * i;  // Multiply fact by the current number
+        for (int i = 1; i <= n; i++) {
+            fact *= i;  // Multiply current number to get factorial
         }
         return fact;
     }
 }
 
+// Function to check if a number is even using modulo
 bool checkEven(int n) {
-    if (n % 2 == 0) {  // Check if the number is even
-        return true;   // Return true if even
-    } else {
-        return false;  // Return false if odd
-    }
+    return (n % 2 == 0);
 }
 
+// Function to check if a number is odd using bitwise AND
 bool checkOdd(int num) {
-    if ((num&1) != 0) {  // Check if the number is even
-        return true;   // Return true if even
-    } else {
-        return false;  // Return false if odd
-    }
+    return ((num & 1) != 0);
 }
 
-float circle_area(float radius){
-        float area = 3.14 * radius * radius;  // Calculate the area of the circle
-        return area;  // Return the calculated area
-    }
+// Function to calculate the area of a circle
+float circle_area(float radius) {
+    return 3.14 * radius * radius;  // Area = πr²
+}
 
 int main() {
+    // Step 1: Area of a Circle
     float radius;
-    cin >> radius;  // Read the radius of the circle
-    float area = circle_area(radius);  // Calculate the area of the circle
-    cout << "Area of the circle is: " << area << endl;  // Output the area
+    cout << "Enter radius of the circle: ";
+    cin >> radius;
 
+    float area = circle_area(radius);
+    cout << "Area of the circle is: " << area << endl;
+
+    // Step 2: Check Even/Odd using modulo
     int n;
+    cout << "Enter an integer to check even/odd (method 1): ";
     cin >> n;
-    bool isEven = checkEven(n);  // Check if the number is even
 
-    if (isEven) {
-        cout << n << " is even number." << endl;  // Output if the number is even
+    if (checkEven(n)) {
+        cout << n << " is an even number." << endl;
     } else {
-        cout << n << " is odd number." << endl;  // Output if the number is odd
+        cout << n << " is an odd number." << endl;
     }
 
+    // Step 3: Check Odd/Even using bitwise
     int num;
+    cout << "Enter another integer to check odd/even (method 2): ";
     cin >> num;
-    bool isOdd = checkOdd(num);  // Check if the number is even
 
-    if (isOdd) {
-        cout << num << " is odd number." << endl;  // Output if the number is even
+    if (checkOdd(num)) {
+        cout << num << " is an odd number." << endl;
     } else {
-        cout << num << " is even number." << endl;  // Output if the number is odd
+        cout << num << " is an even number." << endl;
     }
 
-    long long int ans = factorial(n);  // Calculate the factorial of n
-    cout << "Factorial of " << n << " is: " << ans << endl;  // Output the factorial
-    return 0;  // Return 0 to indicate successful execution
+    // Step 4: Factorial calculation
+    long long int ans = factorial(n);
+    cout << "Factorial of " << n << " is: " << ans << endl;
+
+    return 0;  // Successful execution
 }
