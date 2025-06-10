@@ -10,5 +10,14 @@ int main() {
     cout << arr << endl; // This will print the address of the array
     cout << &arr << endl; // This will also print the address of the array
 
+    int arr1[] = {1, 2, 3, 4, 5};
+    cout << "Array 1 created successfully." << endl;
+
+    int arr2[5] = {1, 2, 3, 4, 5};
+    cout << "Array 2 created successfully." << endl;
+
+    int arr3[10] = {1, 2, 3, 4, 5}; // All elements initialized to 0
+    cout << "Array 3 created successfully." << endl;            
+
     return 0;
 }
