@@ -8,6 +8,7 @@ int main() {
 
     cout << "Array created successfully." << endl;
     cout << arr << endl; // This will print the address of the array
+    cout << &arr << endl; // This will also print the address of the array
 
     return 0;
 }
