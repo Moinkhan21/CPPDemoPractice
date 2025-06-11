@@ -53,5 +53,31 @@ int main() {
         cout << arr4[i]*2 << " "; // Printing the values of arr4
     }
 
+    cout << endl;
+
+    int arr5[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+
+    for(int i = 0; i < 10; i++) {
+        arr5[i] = 1; // Initializing all elements of arr5 to 1
+    }
+    
+    cout << "Array5 values: " << endl;
+
+    for(int i = 0; i < 10; i++) {
+        cout << arr5[i] << " "; // Printing the values of arr5
+    }
+
+    cout << endl;
+
+    int arr6[10] = {1, 2};
+
+    cout << "Array6 values: " << endl;
+
+    for(int i=0; i<10; i++) {
+        cout << arr6[i] << " "; // Printing the values of arr6
+    }
+
+    cout << endl;
+
     return 0;
 }
