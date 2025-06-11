@@ -32,17 +32,25 @@ int main() {
 
     int arr4[10] = {};
 
+    // Taking input for arr4
     for(int i = 0; i < 10; i++){
         // int n;
         // cin >> n;
         // arr3[i] = n; 
 
-        cin >> arr4[i]; // Taking input for arr3
+        cin >> arr4[i]; // Taking input for arr4
     }
 
     cout << "Array4 values: " << endl;
     for(int i = 0; i < 10; i++) {
-        cout << arr4[i] << " "; // Printing the values of arr3
+        cout << arr4[i] << " "; // Printing the values of arr4
+    }
+
+    cout << endl;
+
+    cout << "Array4 double values: " << endl;
+    for(int i = 0; i < 10; i++) {
+        cout << arr4[i]*2 << " "; // Printing the values of arr4
     }
 
     return 0;
