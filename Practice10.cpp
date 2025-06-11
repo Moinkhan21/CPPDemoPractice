@@ -28,5 +28,22 @@ int main() {
         cout << arr1[i] << " ";
     }
 
+    cout << "Enter the input values in array: " << endl;
+
+    int arr4[10] = {};
+
+    for(int i = 0; i < 10; i++){
+        // int n;
+        // cin >> n;
+        // arr3[i] = n; 
+
+        cin >> arr4[i]; // Taking input for arr3
+    }
+
+    cout << "Array4 values: " << endl;
+    for(int i = 0; i < 10; i++) {
+        cout << arr4[i] << " "; // Printing the values of arr3
+    }
+
     return 0;
 }
