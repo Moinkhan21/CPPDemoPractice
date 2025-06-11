@@ -79,5 +79,13 @@ int main() {
 
     cout << endl;
 
+    int arr7[10] = {0};
+
+    cout << "Array7 values: " << endl;
+
+    for(int i=0; i<10; i++) {
+        cout << arr7[i] << " "; // Printing the values of arr7
+    }
+
     return 0;
 }
