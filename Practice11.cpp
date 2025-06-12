@@ -44,5 +44,24 @@ int main() {
         cout << "Key not found in the array." << endl;
     }
 
+    int arr2[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    int size2 = 10;
+
+    int key2 = 11;
+
+    bool flag = 0;
+
+    for(int i = 0; i < size2; i++) {
+        if(arr2[i] == key2) {
+            flag = 1; // Key found
+        }
+    }
+
+    if(flag) {
+        cout << "Key found in the array." << endl;
+    } else {
+        cout << "Key not found in the array." << endl;
+    }
+
     return 0;
 }
