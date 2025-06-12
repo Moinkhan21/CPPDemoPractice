@@ -54,6 +54,7 @@ int main() {
     for(int i = 0; i < size2; i++) {
         if(arr2[i] == key2) {
             flag = 1; // Key found
+            break;
         }
     }
 
