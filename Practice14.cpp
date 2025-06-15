@@ -23,6 +23,14 @@ int main() {
     }
     cout << endl; // New line after printing all elements
 
+    //remove the last element
+    arr.pop_back(); // Remove the last element from the vector
+
+    //Printing array elements
+    for(int i = 0; i < arr.size(); i++) {
+        cout << arr[i] << " "; // Output each element in the vector
+    }
+    cout << endl; // New line after printing all elements
 
     return 0; // Return 0 to indicate successful execution
 }
