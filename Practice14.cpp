@@ -48,5 +48,21 @@ int main() {
         cout << arr3[i] << " "; // Output each element in arr3 (all are 100)
     }
 
+    cout << endl; // New line after printing all elements
+
+    int n;
+    cout << "Enter the size of the vector: ";
+    cin >> n; // Input the size of the vector from the user
+
+    vector<int> arr4(n, 101); // Create a vector of size n, initialized with 101
+    cout << "Size of arr4: " << arr4.size() << endl; // Output the size of arr4
+    cout << "Capacity of arr4: " << arr4.capacity() << endl; // Output the capacity of arr4
+
+    for(int i = 0; i < arr4.size(); i++) {
+        cout << arr4[i] << " "; // Output each element in arr4 (all are 101)
+    }
+
+    cout << endl; // New line after printing all elements
+
     return 0; // Return 0 to indicate successful execution
 }
