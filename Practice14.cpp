@@ -64,5 +64,15 @@ int main() {
 
     cout << endl; // New line after printing all elements
 
+    //Printing arr5
+
+    vector<int> arr5{10, 20, 30, 40, 50}; // Create a vector with initializer list
+
+    for(int i = 0; i < arr5.size(); i++) {
+        cout << arr5[i] << " "; // Output each element in arr5
+    }
+
+    cout << endl; // New line after printing all elements
+
     return 0; // Return 0 to indicate successful execution
 }
