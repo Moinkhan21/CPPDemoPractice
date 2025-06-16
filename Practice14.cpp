@@ -74,5 +74,12 @@ int main() {
 
     cout << endl; // New line after printing all elements
 
+    cout << "Vector arr5 is empty or not: " << arr5.empty() << endl; // Check if arr5 is empty
+
+    vector<int> arr6; // Create another empty vector
+    cout << "Vector arr6 is empty or not: " << arr6.empty() << endl; // Check if arr6 is empty
+
+    cout << endl; // New line for better readability
+
     return 0; // Return 0 to indicate successful execution
 }
