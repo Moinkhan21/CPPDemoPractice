@@ -30,6 +30,8 @@ int main(){
 
     cout << "Number of unique elements: " << uniqueElements << endl; // Output the number of unique elements
 
+    //Union of two arrays
+    cout << "Union of two arrays: " << endl;
     int brr[] = {1, 3, 5, 7, 9};
     int sizeA = 5;
     int crr[] = {2, 4, 6, 8, 10};
@@ -53,6 +55,34 @@ int main(){
     for(int i = 0; i < ans.size(); i++){
         cout << ans[i] << " "; // Output each element in the ans vector
     }
+
+    cout << endl; // New line after printing all elements
+
+    //Intersection of two arrays
+
+    vector<int> drr{1, 2, 3, 4, 6, 8};
+    vector<int> err{2, 4, 9, 10};
+
+    vector<int> intersection;
+
+    //outer loop on drr vector
+    for(int i = 0; i < drr.size(); i++){
+        int element = drr[i]; // Get the current element from drr
+        //inner loop on err vector
+        for(int j = 0; j < err.size(); j++){
+            if(element == err[j]){
+                intersection.push_back(element); // If the element is found in err, add it to intersection
+            }
+        }
+    }
+
+    //Printing the intersection vector
+    cout << "Intersection of two arrays: " << endl;
+    for(auto value : intersection){
+        cout << value << " "; // Output each element in the intersection vector
+    }
+
+    cout << endl; // New line after printing all elements
 
     return 0; // Return 0 to indicate successful execution
 }
