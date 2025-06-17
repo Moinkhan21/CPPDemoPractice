@@ -35,4 +35,31 @@ int main() {
             }
         }
     }
+
+    // Sort 0 & 1 Problem
+
+    vector<int> arr2{0, 1, 0, 1, 1, 0, 1, 0, 1, 1}; // Initialize a vector with 0s and 1s
+
+    int start = 0; // Initialize start index
+    int end = arr2.size() - 1; // Initialize end index
+    int i = 0; // Initialize index for traversing the array
+
+    while(i != end) {
+        if(arr2[i] == 0) {
+            // Swap from left
+            swap(arr2[start], arr2[i]); // Swap if the element is 0
+            start++; // Move start index forward
+            i++; // Move to the next index
+        } else {
+            // Swap from right
+            swap(arr2[end], arr2[i]); // Swap if the element is 1
+            end--; // Move end index backward
+        }
+    }
+
+    // Printing the sorted array
+    cout << "Sorted array of 0s and 1s: ";
+    for(int i = 0; i < arr2.size(); i++) {
+        cout << arr2[i] << " "; // Output each element in the sorted array
+    }
 }
