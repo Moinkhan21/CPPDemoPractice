@@ -14,4 +14,14 @@ int main() {
     // Print the 2D Array
     cout << "2D Array:" << endl;
     cout << arr[1][2] << endl; // Accessing an element in the 2D array`
+
+    //row-wise print
+    // Outer loop 
+    for(int i = 0; i < 3; i++) {
+        //for every row, we need to print value in each column
+        for(int j = 0; j < 3; j++) {
+            cout << arr[i][j] << " "; // Print each element in the row
+        }
+        cout << endl; // New line after each row
+    }
 }
