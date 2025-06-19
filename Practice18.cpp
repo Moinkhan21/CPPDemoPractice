@@ -64,11 +64,12 @@ int getMini(int arr[][3], int rows, int cols) {
     return mini;
 }
 
-void tanspose2DArray(int arr[][3], int rows, int cols) {
+void transpose2DArray(int arr[][3], int rows, int cols, int transposedArr[][3]) {
     cout << "Transpose of the 2D array:" << endl;
     for(int i = 0; i < rows; i++) {
         for(int j = 0; j < cols; j++) {
-            swap(arr[i][j], arr[j][i]); // Swap elements to get the transpose
+            // swap(arr[i][j], arr[j][i]); Swap elements to get the transpose
+            transposedArr[j][i] = arr[i][j];
         }
     }
 }
@@ -129,11 +130,12 @@ int main() {
     print2DArray(arr, rows, cols);
 
     cout << "Transposed array:" << endl;
-    tanspose2DArray(arr, rows, cols);
+    int transposedArr[3][3];
+    transpose2DArray(arr, rows, cols, transposedArr);
 
     cout << "After transposing, the array is:" << endl;
     // Print the transposed array
-    print2DArray(arr, rows, cols);
+    print2DArray(transposedArr, rows, cols);
     
    
     return 0; // Return 0 to indicate successful execution
