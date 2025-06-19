@@ -39,7 +39,7 @@ bool findKey(int arr[][3], int rows, int cols, int key) {
 }
 
 int getMaxi(int arr[][3], int rows, int cols) {
-    int maxi = INT_MAX;
+    int maxi = INT_MIN;
 
     for(int i = 0; i < rows; i++) {
         for(int j = 0; j < cols; j++) {
@@ -49,6 +49,37 @@ int getMaxi(int arr[][3], int rows, int cols) {
         }
     }
     return maxi;
+}
+
+int getMini(int arr[][3], int rows, int cols) {
+    int mini = INT_MAX;
+
+    for(int i = 0; i < rows; i++) {
+        for(int j = 0; j < cols; j++) {
+            if(arr[i][j] < mini) {
+                mini = arr[i][j];
+            }
+        }
+    }
+    return mini;
+}
+
+void tanspose2DArray(int arr[][3], int rows, int cols) {
+    cout << "Transpose of the 2D array:" << endl;
+    for(int i = 0; i < rows; i++) {
+        for(int j = 0; j < cols; j++) {
+            swap(arr[i][j], arr[j][i]); // Swap elements to get the transpose
+        }
+    }
+}
+
+void print2DArray(int arr[][3], int rows, int cols) {
+    for(int i = 0; i < rows; i++) {
+        for(int j = 0; j < cols; j++) {
+            cout << arr[i][j] << " "; // Print each element
+        }
+        cout << endl; // New line after each row
+    }
 }
 
 int main() {
@@ -91,5 +122,19 @@ int main() {
     int maxElement = getMaxi(arr, rows, cols);
     cout << "Maximum element in the array is: " << maxElement << endl;
 
+    int minElement = getMini(arr, rows, cols);
+    cout << "Minimum element in the array is: " << minElement << endl;
+
+    cout << "Original array:" << endl;
+    print2DArray(arr, rows, cols);
+
+    cout << "Transposed array:" << endl;
+    tanspose2DArray(arr, rows, cols);
+
+    cout << "After transposing, the array is:" << endl;
+    // Print the transposed array
+    print2DArray(arr, rows, cols);
+    
+   
     return 0; // Return 0 to indicate successful execution
 }
