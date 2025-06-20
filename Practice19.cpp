@@ -20,4 +20,18 @@ int main(){
         }
         cout << endl; // New line after each row
     }
+
+    int rows = 3;
+    int cols = 5;
+
+    vector<vector<int> > arr1(rows, vector<int>(cols, 101)); // Initialize with 101
+
+    for(int i = 0; i < arr1.size(); i++){
+        for(int j = 0; j < arr1[i].size(); j++){
+            cout << arr1[i][j] << " "; // Print each element
+        }
+        cout << endl; // New line after each row
+    }
+
+    return 0;
 }
