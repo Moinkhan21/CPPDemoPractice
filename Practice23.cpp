@@ -2,48 +2,62 @@
 #include <algorithm> // Required for std::sort
 using namespace std;
 
-// Function to find a duplicate in an array
+// ============================
+// Function: findDuplicate
+// Purpose: Finds and returns the first duplicate element in the array
+// ============================
 int findDuplicate(int arr[], int n) {
-    // Sort the array first to bring duplicates together
+    // Step 1: Sort the array so that duplicates will appear next to each other
     sort(arr, arr + n);
 
-    // Traverse the array and compare adjacent elements
+    // Step 2: Traverse the sorted array and compare adjacent elements
     for (int i = 0; i < n - 1; i++) {
         if (arr[i] == arr[i + 1]) {
-            return arr[i]; // Found duplicate
+            return arr[i]; // Found duplicate, return it
         }
     }
 
-    return -1; // No duplicate found
+    // If no duplicates found, return -1
+    return -1;
 }
 
+// ============================
+// Function: main
+// Purpose: Handles user input, calls the duplicate finder, and prints output
+// ============================
 int main() {
     int n;
+
+    // Ask user to input number of elements
     cout << "Enter number of elements: ";
     cin >> n;
 
-    int arr[n]; // Declare array of size n
+    // Declare array of user-defined size
+    int arr[n];
 
-    // Input elements
+    // Step 1: Input elements from the user
     cout << "Enter " << n << " elements: " << endl;
     for (int i = 0; i < n; i++) {
         cin >> arr[i];
     }
 
-    // Print array
+    // Step 2: Display the entered array
     cout << "Array elements: ";
     for (int i = 0; i < n; i++) {
         cout << arr[i] << " ";
     }
     cout << endl;
 
-    // Call function and print duplicate
+    // Step 3: Call the function to find a duplicate
     int duplicate = findDuplicate(arr, n);
+
+    // Step 4: Output the result
     if (duplicate != -1) {
         cout << "Duplicate element found: " << duplicate << endl;
     } else {
         cout << "No duplicate element found." << endl;
     }
 
+    // End of program
     return 0;
 }
