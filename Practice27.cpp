@@ -3,21 +3,24 @@ using namespace std;
 
 void findMissing(int *a, int n) {
     
-    // Step 1: Mark the indices of the elements in the array
-    for(int i = 0; i < n; i++){
-        int index = abs(a[i]); 
-        if(a[index - 1] > 0) {
-            a[index - 1] *= -1; // Mark the index as visited
-        }
+   int i = 0;
+   while(i < n){
+    int index = a[i] - 1; // Convert to zero-based index
+    if(a[i] != a[index]) {
+        swap(a[i], a[index]); // Swap to place the element at its correct index
+    } else {
+        i++; // Move to the next element if the current one is in the right place
     }
+   }
 
-    // Step 2: Find the first index that is not marked
+    
     for(int i = 0; i < n; i++) {
-        if(a[i] > 0) {
-            cout << "Missing element: " << i + 1 << endl; // Output the missing element
-            return;
+        
+        if(a[i] != i + 1){
+            cout << i + 1 << " "; // Output the missing element
         }
      }
+    cout << endl;
 }
 
     
