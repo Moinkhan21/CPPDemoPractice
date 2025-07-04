@@ -49,29 +49,6 @@ string calcSum(int *a, int n, int *b, int m) {
     return ans;
 }
 
-class Solution {
-    public:
-      vector<int> factorial(int n) {
-        vector<int> ans;
-        ans.push_back(1); // Initialize with 1 for factorial of 0 or 1
-        int carry = 0; // Initialize carry for multiplication
-          for (int i = 2; i <= n; i++) {
-              
-              for (int j = 0; j < ans.size(); j++) {
-                  int product = ans[j] * i + carry;
-                  ans[j] = product % 10; // Store last digit
-                  carry = product / 10; // Carry for next iteration
-              }
-              while (carry) {
-                  ans.push_back(carry % 10); // Add remaining carry
-                  carry /= 10;
-              }
-          }
-          reverse(ans.begin(), ans.end()); // Reverse to get correct order
-          return ans;
-      }
-};
-
 int main() {
     // Example arrays to test the sum calculation
     int a[] = {0, 9, 0, 0, 3, 5}; // Represents the number 090035
