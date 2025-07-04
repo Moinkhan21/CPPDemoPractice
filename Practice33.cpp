@@ -4,69 +4,72 @@ using namespace std;
 
 // Function to return matrix elements in spiral order
 vector<int> spiralOrder(vector<vector<int>>& matrix) {
-    vector<int> result;
+    vector<int> result; // This will store the final spiral order output
 
-    int m = matrix.size();              // Number of rows
-    int n = matrix[0].size();           // Number of columns
-    int totalElements = m * n;          // Total elements in matrix
+    int m = matrix.size();              // Total number of rows
+    int n = matrix[0].size();           // Total number of columns
+    int totalElements = m * n;          // Total elements in the matrix
 
+    // Initialize boundaries for spiral traversal
     int startingRow = 0;
     int startingCol = 0;
     int endingRow = m - 1;
     int endingCol = n - 1;
 
-    int count = 0;
+    int count = 0; // To track how many elements we have added to result
 
+    // Loop until we have added all elements
     while (count < totalElements) {
-        // Print starting row
+
+        // -------- Traverse top row (left to right) --------
         for (int i = startingCol; i <= endingCol && count < totalElements; i++) {
-            result.push_back(matrix[startingRow][i]);
-            count++;
+            result.push_back(matrix[startingRow][i]); // Add element to result
+            count++; // Increment element count
         }
-        startingRow++;
+        startingRow++; // Move top boundary down
 
-        // Print ending column
+        // -------- Traverse right column (top to bottom) --------
         for (int i = startingRow; i <= endingRow && count < totalElements; i++) {
-            result.push_back(matrix[i][endingCol]);
+            result.push_back(matrix[i][endingCol]); // Add element to result
             count++;
         }
-        endingCol--;
+        endingCol--; // Move right boundary left
 
-        // Print ending row
+        // -------- Traverse bottom row (right to left) --------
         for (int i = endingCol; i >= startingCol && count < totalElements; i--) {
-            result.push_back(matrix[endingRow][i]);
+            result.push_back(matrix[endingRow][i]); // Add element to result
             count++;
         }
-        endingRow--;
+        endingRow--; // Move bottom boundary up
 
-        // Print starting column
+        // -------- Traverse left column (bottom to top) --------
         for (int i = endingRow; i >= startingRow && count < totalElements; i--) {
-            result.push_back(matrix[i][startingCol]);
+            result.push_back(matrix[i][startingCol]); // Add element to result
             count++;
         }
-        startingCol++;
+        startingCol++; // Move left boundary right
     }
 
-    return result;
+    return result; // Return the final spiral-ordered vector
 }
 
 int main() {
-    // Example input matrix
+    // Example matrix to test spiral order
     vector<vector<int>> matrix = {
         {1, 2, 3},
         {4, 5, 6},
         {7, 8, 9}
     };
 
-    // Get the spiral order
+    // Call the spiralOrder function and get the result
     vector<int> result = spiralOrder(matrix);
 
-    // Print the result
+    // Display the result
     cout << "Spiral Order: ";
     for (int val : result) {
-        cout << val << " ";
+        cout << val << " "; // Print each element in spiral order
     }
     cout << endl;
 
-    return 0;
+    return 0; // Successful execution
 }
