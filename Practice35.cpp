@@ -3,14 +3,7 @@
 #include <algorithm> // For using reverse() function
 using namespace std;
 
-/**
- * Function to multiply a large number represented as a vector of digits (least significant digit first)
- * with a single integer multiplier. It returns the result as a new vector.
- *
- * @param num - The large number stored in reverse order (least significant digit at index 0)
- * @param multiplier - The integer to multiply with
- * @return A new vector storing the result in reverse order
- */
+
 vector<int> multiplyVector(const vector<int>& num, int multiplier) {
     vector<int> result; // Vector to store the result
     int carry = 0;      // Carry for multiplication
