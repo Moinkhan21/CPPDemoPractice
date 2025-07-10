@@ -37,5 +37,20 @@ int main() {
     int ans = findSqrt(n);
     cout << "Ans is: " << ans << endl;
 
+    int precision;
+    cout << "Enter the number of floating digits in precision: " << endl;
+    cin >> precision;
+
+    double step = 0.1;
+    double finalAns = ans; // Start with the integer part of the square root
+    for(int i = 0; i < precision; i++) {
+        for(double j = finalAns; j * j < n; j += step) {
+            finalAns = j;
+        }
+        step /= 10; // Reduce the step size for more precision
+    }
+
+    cout << "Final ans is: " << finalAns << endl;
+
     return 0; // Successful execution
 }
