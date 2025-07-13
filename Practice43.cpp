@@ -12,7 +12,8 @@ int solve(int dividend, int divisor) {
     while(s <= e) {
         //Perfect solution
         if(abs(mid*divisor) == abs(dividend)) {
-            return mid; // Return the quotient
+            ans = mid; // Update ans to the perfect quotient found
+            return ans; // Return the quotient 
         }
         //Not perfect solution, but close
         if(abs(mid*divisor) > abs(dividend)) {

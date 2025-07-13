@@ -11,9 +11,9 @@ int binarySearch(vector<int> arr, int target) {
     while(s <= e) {
         if(arr[mid] == target)
           return mid; // Target found, return index
-        if(mid - 1 >= 0 && arr[mid - 1] == target)
+        if(mid - 1 >= 0 && arr[mid - 1] == target) //mid - 1 >= s
           return mid - 1; // Target found at mid - 1
-        if(mid + 1 < arr.size() && arr[mid + 1] == target)
+        if(mid + 1 < arr.size() && arr[mid + 1] == target) // mid + 1 <= e
           return mid + 1; // Target found at mid + 1
 
         if(arr[mid] < target) {
