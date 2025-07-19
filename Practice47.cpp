@@ -51,7 +51,7 @@ int main() {
     for (int i = 0; i < n; i++) {
         cout << arr[i] << " "; // Print each element with space
     }
-    cout << endl; // End line after printing all elements
+    
 
     return 0; // Indicate successful program execution
 }
