@@ -58,7 +58,7 @@ int main() {
 
     // Output the result
     cout << "The answer is: " << ans << endl;
-    cout << "The element is: " << arr[ans] << endl;
+    
 
     return 0; // Successful execution
 }
