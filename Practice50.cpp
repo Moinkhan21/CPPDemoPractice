@@ -11,24 +11,23 @@ Purpose:  Finds the number of unique k-diff pairs in the array.
           A k-diff pair is defined as (nums[i], nums[j]) where:
           - i ≠ j
           - abs(nums[i] - nums[j]) == k
-          - Each pair must be unique and unordered duplicates are ignored.
+          - Each pair must be unique (no duplicates)
 Params:
     nums - the input array of integers
     k    - the target difference between two numbers
 Returns:
-    The number of unique k-diff pairs in the array.
+    A set of unique pairs where the absolute difference is k
 --------------------------------------------------------------
 */
-int findUniqueKDiffPairs(vector<int>& nums, int k) {
-    if (k < 0) return 0; // No valid pair if k is negative (abs() ensures positive diff)
-
-    // Step 1: Sort the array to make it easier to find pairs and skip duplicates
-    sort(nums.begin(), nums.end());
-
-    // Step 2: Set to store unique pairs (automatically handles duplicate pairs)
+set<pair<int, int>> findUniqueKDiffPairs(vector<int>& nums, int k) {
     set<pair<int, int>> uniquePairs;
 
-    // Step 3: Two-pointer approach
+    if (k < 0) return uniquePairs; // Negative difference is not allowed
+
+    // Step 1: Sort the array to allow efficient two-pointer traversal
+    sort(nums.begin(), nums.end());
+
+    // Step 2: Use two pointers
     int i = 0, j = 1;
     int n = nums.size();
 
@@ -36,41 +35,48 @@ int findUniqueKDiffPairs(vector<int>& nums, int k) {
         int diff = nums[j] - nums[i];
 
         if (diff == k) {
-            // Valid k-diff pair found
+            // Found a valid pair with difference k
             uniquePairs.insert({nums[i], nums[j]});
             i++;
             j++;
         } else if (diff > k) {
-            // If difference is greater than k, move the left pointer to reduce the diff
+            // Too large, move the left pointer to reduce difference
             i++;
         } else {
-            // If difference is smaller than k, move the right pointer to increase the diff
+            // Too small, move the right pointer to increase difference
             j++;
         }
 
-        // Ensure that j is always ahead of i
+        // Ensure j is always ahead of i to avoid comparing the same element
         if (i == j) {
             j++;
         }
     }
 
-    // Step 4: Return the total count of unique k-diff pairs
-    return uniquePairs.size();
+    return uniquePairs; // Return the set of valid unique pairs
 }
 
 /*
 --------------------------------------------------------------
 Main Function
-Tests the findUniqueKDiffPairs function with sample input
+Tests the findUniqueKDiffPairs function and displays pairs
 --------------------------------------------------------------
 */
 int main() {
     vector<int> nums = {3, 1, 4, 1, 5}; // Sample array
-    int k = 2; // Target difference value
+    int k = 2; // Target k-diff
 
-    int result = findUniqueKDiffPairs(nums, k); // Call functional method
+    // Call the function and get all unique k-diff pairs
+    set<pair<int, int>> resultPairs = findUniqueKDiffPairs(nums, k);
 
-    cout << "Number of unique k-diff pairs: " << result << endl;
+    // Display the number of pairs found
+    cout << "Number of unique k-diff pairs: " << resultPairs.size() << endl;
+
+    // Display each unique pair
+    cout << "Pairs with difference " << k << ":" << endl;
+    for (const auto& p : resultPairs) {
+        cout << "(" << p.first << ", " << p.second << ")" << endl;
+    }
 
     return 0;
 }
