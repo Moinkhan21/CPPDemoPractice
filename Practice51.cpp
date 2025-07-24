@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <cmath>    // for abs() function to calculate absolute difference
 using namespace std;
 
 /*
@@ -16,19 +17,24 @@ Returns :
 ---------------------------------------------------------
 */
 vector<int> twoPointerMethod(vector<int>& arr, int k, int x) {
+    // Initialize two pointers at the start and end of the array
     int left = 0;
     int right = arr.size() - 1;
 
-    // Shrink the window size until it becomes exactly size k
+    // Keep reducing the window size until we are left with exactly k elements
     while (right - left >= k) {
+        // Compare absolute difference between x and values at the boundaries
         if (abs(x - arr[left]) > abs(arr[right] - x)) {
-            left++;  // Left element is farther, discard it
+            // If the left value is farther from x, move the left pointer forward
+            left++;
         } else {
-            right--; // Right element is farther, discard it
+            // Else, the right value is farther from x, move the right pointer backward
+            right--;
         }
     }
 
-    // Copy the resulting subarray of size k
+    // Once the loop ends, the window between left and right (inclusive) has exactly k closest elements
+    // Return that window as a new vector
     return vector<int>(arr.begin() + left, arr.begin() + right + 1);
 }
 
@@ -39,21 +45,30 @@ Purpose : Wrapper function to call the actual method
 ---------------------------------------------------------
 */
 vector<int> findClosestElements(vector<int>& arr, int k, int x) {
+    // Simply calls the twoPointerMethod
     return twoPointerMethod(arr, k, x);
 }
 
 /*
 ---------------------------------------------------------
-Main Function: Demonstrates working of the function
+Main Function
+Purpose : Demonstrates the working of the above function
 ---------------------------------------------------------
 */
 int main() {
+    // Sample input: sorted array of integers
     vector<int> arr = {1, 2, 3, 4, 5};
+
+    // Number of closest elements to find
     int k = 4;
+
+    // Target value to find closest elements to
     int x = 3;
 
+    // Call the function to find k closest elements
     vector<int> result = findClosestElements(arr, k, x);
 
+    // Output the result
     cout << "The " << k << " closest elements to " << x << " are:\n";
     for (int num : result) {
         cout << num << " ";
