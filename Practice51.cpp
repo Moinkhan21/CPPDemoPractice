@@ -57,13 +57,13 @@ Purpose : Demonstrates the working of the above function
 */
 int main() {
     // Sample input: sorted array of integers
-    vector<int> arr = {1, 2, 3, 4, 5};
+    vector<int> arr = {12, 16, 22, 30, 35, 39, 40, 42, 45, 48, 50, 53, 55, 56};
 
     // Number of closest elements to find
     int k = 4;
 
     // Target value to find closest elements to
-    int x = 3;
+    int x = 35;
 
     // Call the function to find k closest elements
     vector<int> result = findClosestElements(arr, k, x);
