@@ -14,5 +14,7 @@ int main() {
         meraMap[3] = 'c';
 
     //accessing elements in map
+        cout << "Your ans is: " << meraMap[1] << endl; // Outputs: a
         cout << "Your ans is: " << meraMap[2] << endl; // Outputs: b
+        cout << "Your ans is: " << meraMap[3] << endl; // Outputs: c
 }
