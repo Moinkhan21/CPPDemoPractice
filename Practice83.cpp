@@ -6,7 +6,9 @@
 using namespace std;
 
 static bool myComp(const string& a, const string& b) {
-    return a > b;
+    string t1 = a + b;
+    string t2 = b + a;
+    return t1 > t2;
 }
 
 string largestNumber(vector<int>& nums){
@@ -17,6 +19,8 @@ string largestNumber(vector<int>& nums){
 
     // sort(snums.begin(), snums.end());
     sort(snums.begin(), snums.end(), myComp);
+
+    if(snums[0] == "0") return "0"; // Handle case where all numbers are zero
 
     string result = "";
     // for(int i = snums.size() - 1; i >= 0; i--){
@@ -31,7 +35,7 @@ string largestNumber(vector<int>& nums){
 }
 
 int main() {
-    vector<int> nums = {1, 2, 3, 5, 4};
+    vector<int> nums = { 3, 30, 34, 5, 9 };
     cout << largestNumber(nums) << endl;
     return 0;
 }
