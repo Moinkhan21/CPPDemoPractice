@@ -53,5 +53,5 @@ int main() {
     // Output the result
     cout << "The Roman numeral for " << num << " is " << roman << endl;
 
-    return 0; 
+    return 0; // Indicate successful execution
 }
