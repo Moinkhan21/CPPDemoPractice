@@ -45,5 +45,12 @@ int main() {
     // ptr5 is declared but not initialized, it points to an undefined location
     cout << *ptr5 << endl; // This will lead to undefined behavior
 
+    // Null pointer
+    int* ptr6 = 0; // int* ptr6 = NULL; Initialize ptr6 to a null pointer(Old version)
+    cout << ptr6 << endl; // This will print 0 or NULL
+
+    int* ptr7 = nullptr; // Initialize ptr7 to a null pointer
+    cout << ptr7 << endl; // This will also print 0 or NULL
+
     return 0;
 }
