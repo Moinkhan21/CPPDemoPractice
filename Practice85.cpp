@@ -25,5 +25,20 @@ int main() {
     cout << arr1[2] << endl; // Print the third element of arr1
     cout << *(arr1 + 3) << endl; // Print the fourth element of arr1
 
+    int i = 0;
+    cout << arr1[i] << endl; // Print the first element of arr1 using index variable i
+    cout << i[arr1] << endl; // Print the first element of arr1 using index variable i
+    cout << *(arr1 + i) << endl; // Print the first element of arr1 using index variable i
+    cout << *(i + arr1) << endl; // Print the first element of arr1 using index variable i
+
+    int arr2[10];
+    cout << sizeof(arr2) << endl; // Print the size of the array arr2
+
+    int* p = arr2;
+    cout << sizeof(p) << endl; // Print the size of the pointer p
+    cout << sizeof(*p) << endl; // Print the size of the data type pointed to by p
+
     return 0;
+
+
 }

@@ -84,5 +84,5 @@ int main() {
     cout << (*ptr10)*2 + (*ptr12)*3 << endl;
     cout << (*ptr10/2) - (*ptr11/2) << endl;
 
-    return 0;
+    return 0; 
 }
