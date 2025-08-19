@@ -15,7 +15,15 @@ int main() {
     cout << ptr << endl; // Print the address stored in the pointer
     cout << &ptr << endl; // Print the address of the pointer itself
 
-     
+    cout << *arr1 << endl; // Print the first element of arr1
+    cout << arr[0] << endl; // Print the first element of arr
+    cout << *arr1 + 1 << endl; // Print the second element of arr1
+    cout << *(arr1) + 1 << endl; // Print the second element of arr1
+    cout << *(arr1 + 1) << endl; // Print the second element of arr1
+    cout << arr1[1] << endl; // Print the second element of arr1
+    cout << *(arr1 + 2) << endl; // Print the third element of arr1
+    cout << arr1[2] << endl; // Print the third element of arr1
+    cout << *(arr1 + 3) << endl; // Print the fourth element of arr1
 
     return 0;
 }
