@@ -1,6 +1,10 @@
 #include <iostream>
 using namespace std;
 
+void util(int* p){
+    p = p + 1;
+}
+
 int main() {
     int a = 5;
     int* p = &a;
@@ -16,7 +20,23 @@ int main() {
     cout << *q << endl;
     cout << **q << endl;
 
-    
+    int b = 5;
+    int* r = &b;
+
+    cout << "Before" << endl;
+
+    cout << b << endl;
+    cout << r << endl;
+    cout << *r << endl;
+
+    util(p);
+
+    cout << "After" << endl;
+
+    cout << b << endl;
+    cout << r << endl;
+    cout << *r << endl;
+
 
     return 0;
 }
