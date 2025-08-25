@@ -7,10 +7,10 @@ vector<bool> Sieve(int n){
     vector<bool> sieve(n+1, true);
     sieve[0] = sieve[1] = false;
 
-    for(int i = 2; i <= n; i++){
+    for(int i = 2; i * i <= n; i++){ // Optimization 2 in Outer Loop
         if(sieve[i] == true){
             //int j = i * 2;
-            int j = i * i; // Optimization 1
+            int j = i * i; // Optimization 1 in Inner Loop
             // First unmarked number would be i * i, as others have been marked by 2 to (i - 1)
             while(j <= n){
                 sieve[j] = false;
