@@ -18,6 +18,9 @@ void printSubsequences(string str, string output, int i){
     output.push_back(str[i]); //output = output + str[i];
 
     printSubsequences(str, output, i + 1);
+
+    //Another way of writing above two lines 
+    //printSubsequences(str, output + str[i], i + 1);
 }
 
 int main() {
