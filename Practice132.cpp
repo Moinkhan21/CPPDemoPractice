@@ -3,7 +3,11 @@
 #include <string>
 using namespace std;
 
-// Use a global constant map (vector of pairs) in descending order
+// ---------------- GLOBAL CONSTANT MAP ----------------
+// We use a vector of pairs where each pair consists of:
+// (numeric value, corresponding English word)
+// The list is sorted in descending order so we can greedily match
+// the largest value first (like "Million" before "Thousand").
 const vector<pair<int, string>> mp = {
     {1000000000, "Billion"}, {1000000, "Million"}, {1000, "Thousand"},
     {100, "Hundred"}, {90, "Ninety"}, {80, "Eighty"}, {70, "Seventy"},
@@ -15,40 +19,63 @@ const vector<pair<int, string>> mp = {
     {2, "Two"}, {1, "One"}
 };
 
+// ---------------- FUNCTION: numberToWords ----------------
+// Converts an integer into its English words representation.
 string numberToWords(int num) {
+    // Special case: if the number is zero
     if (num == 0) return "Zero";
 
-    // Iterate over the map in descending order
+    // Loop through the map (from biggest to smallest unit)
     for (const auto &p : mp) {
-        int val = p.first;
-        const string &word = p.second;
+        int val = p.first;         // numeric value (like 1000, 90, 7, etc.)
+        const string &word = p.second; // English word (like "Thousand", "Ninety", "Seven")
 
+        // If current number is greater than or equal to this value
         if (num >= val) {
             string result;
 
-            // For big units (>= 100), handle prefix like "Twelve Thousand"
+            // ---------------- BIG UNITS CASE (>= 100) ----------------
+            // Example: num = 12345
+            // val = 1000 ("Thousand")
+            // → first compute numberToWords(12345 / 1000) = "Twelve"
+            // → then add "Thousand"
             if (val >= 100) {
                 result += numberToWords(num / val) + " " + word;
             } else {
-                // For values < 100 (like 90, 20, 19, ...) just place the word
+                // ---------------- SMALL UNITS CASE (< 100) ----------------
+                // Example: num = 90
+                // Just append the word "Ninety" directly
                 result += word;
             }
 
+            // ---------------- HANDLE REMAINDER ----------------
+            // Compute remainder after subtracting val
             int rem = num % val;
             if (rem != 0) {
+                // If remainder exists, recursively convert it as well
+                // Example: 12345 % 1000 = 345 → convert "Three Hundred Forty Five"
                 result += " " + numberToWords(rem);
             }
+
+            // Return the complete result string
             return result;
         }
     }
 
-    return ""; // should never reach here for num > 0
+    // Should never reach here for num > 0 because all cases are handled
+    return "";
 }
 
+// ---------------- MAIN FUNCTION ----------------
 int main() {
-    // tests
-    vector<int> tests = {0, 5, 13, 20, 25, 58, 100, 123, 12345, 1000000, 1000000000, 1234567890};
+    // Test numbers to convert into words
+    vector<int> tests = {
+        0, 5, 13, 20, 25, 58,
+        100, 123, 12345,
+        1000000, 1000000000, 1234567890
+    };
 
+    // Loop through test cases and print results
     for (int t : tests) {
         cout << t << " -> " << numberToWords(t) << '\n';
     }
