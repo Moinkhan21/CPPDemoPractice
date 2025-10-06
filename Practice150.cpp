@@ -42,6 +42,20 @@ int main() {
     //To private member
     ramesh.setWeight(100);
     cout << "Weight of ramesh is: " << ramesh.getWeight() << endl;
+
+    //Dynamic Object
+    Animal *suresh = new Animal;
+    (*suresh).age = 15;
+    (*suresh).type = "Elephant";
+
+    //Alternate way to access members using pointer
+    suresh->age = 15;
+    suresh->type = "Elephant";
+
+    cout << "Age of suresh is: " << (*suresh).age << endl;
+    cout << "Name of suresh is: " << suresh->type << endl;
+    suresh->eat();
+    suresh->sleep();
     
     return 0;
 }
