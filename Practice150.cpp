@@ -3,6 +3,8 @@ using namespace std;
 
 class Animal {
 
+    private:
+    int weight;
     public:
     //State & Properties
     int age;
@@ -14,6 +16,13 @@ class Animal {
     }
     void sleep() {
         cout << "Sleeping..." << endl;
+    }
+
+    int getWeight() {
+        return weight;
+    }
+    void setWeight(int w) {
+        weight = w;
     }
 
 };
@@ -29,5 +38,10 @@ int main() {
 
     ramesh.eat(); // Error: 'void Animal::eat()' is private within this context
     ramesh.sleep();
+
+    //To private member
+    ramesh.setWeight(100);
+    cout << "Weight of ramesh is: " << ramesh.getWeight() << endl;
+    
     return 0;
 }
