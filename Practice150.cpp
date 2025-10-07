@@ -23,6 +23,7 @@ class Animal {
     }
     void setWeight(int w) {
         weight = w;
+        //this->weight = weight; //when parameter name and class member name is same
     }
 
 };
