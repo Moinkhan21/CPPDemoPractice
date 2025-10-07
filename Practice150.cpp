@@ -37,6 +37,14 @@ class Animal {
         cout << "Parameterized constructor with 3 parameters called" << endl;
     }
 
+    //Copy Constructor
+    Animal(Animal &obj) {
+        this->age = obj.age;
+        this->weight = obj.weight;
+        this->type = obj.type;
+        cout << "Copy Constructor called" << endl;
+    }
+
     //Behaviour & Functions
     void eat() {
         cout << "Eating..." << endl;
@@ -89,7 +97,14 @@ int main() {
     Animal* b = new Animal(100);
     Animal c(10, 20);
     Animal* d = new Animal(10, 20, "Dog");
-    Animal e = Animal(10, 20, "Cat");
+    Animal* e = new Animal(10, 20, "Cat");
+
+    //Animal a;
+    //a.age = 10;
+    //a.setWeight(100);
+    //a.type = "Lion";
+
+    //Animal b = a; //Copy constructor
 
     
     return 0;
