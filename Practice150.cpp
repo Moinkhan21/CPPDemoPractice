@@ -89,6 +89,7 @@ int main() {
     Animal* b = new Animal(100);
     Animal c(10, 20);
     Animal* d = new Animal(10, 20, "Dog");
+    Animal e = Animal(10, 20, "Cat");
 
     
     return 0;
