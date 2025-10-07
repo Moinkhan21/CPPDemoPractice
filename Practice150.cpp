@@ -55,10 +55,15 @@ class Animal {
 
     int getWeight() {
         return weight;
+    
     }
     void setWeight(int w) {
         weight = w;
         //this->weight = weight; //when parameter name and class member name is same
+    }
+
+    void print(){
+        cout << this->age << " " << this-> weight << " " << this->type << endl;
     }
 
 };
