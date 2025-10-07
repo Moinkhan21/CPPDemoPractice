@@ -111,6 +111,9 @@ int main() {
 
     //Animal b = a; //Copy constructor
 
+    a.print();
+    b->print();
+
     
     return 0;
 }
