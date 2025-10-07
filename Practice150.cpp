@@ -10,11 +10,31 @@ class Animal {
     int age;
     string type;
 
+    //Default constructor
     Animal() {
         this->weight = 0;
         this->age = 0;
         this->type = "";
         cout << "Constructor called" << endl;
+    }
+
+    //Parameterized constructor
+    Animal(int age){
+        this->age = age;
+        cout << "Parameterized constructor called" << endl;
+    }
+
+    Animal(int age, int weight){
+        this->age = age;
+        this->weight = weight;
+        cout << "Parameterized constructor with 2 parameters called" << endl;
+    }
+
+    Animal(int age, int weight, string type){
+        this->age = age;
+        this->weight = weight;
+        this->type = type;
+        cout << "Parameterized constructor with 3 parameters called" << endl;
     }
 
     //Behaviour & Functions
@@ -64,6 +84,12 @@ int main() {
     cout << "Name of suresh is: " << suresh->type << endl;
     suresh->eat();
     suresh->sleep();
+
+    Animal a(10);
+    Animal* b = new Animal(100);
+    Animal c(10, 20);
+    Animal* d = new Animal(10, 20, "Dog");
+
     
     return 0;
 }
