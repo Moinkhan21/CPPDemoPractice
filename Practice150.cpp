@@ -10,6 +10,13 @@ class Animal {
     int age;
     string type;
 
+    Animal() {
+        this->weight = 0;
+        this->age = 0;
+        this->type = "";
+        cout << "Constructor called" << endl;
+    }
+
     //Behaviour & Functions
     void eat() {
         cout << "Eating..." << endl;
