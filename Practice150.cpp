@@ -111,9 +111,20 @@ int main() {
 
     //Animal b = a; //Copy constructor
 
-    a.print();
-    b->print();
+    // Animal a;
+    // a.age = 20;
+    // a.setWeight(101);
+    // a.type = "Tiger";
 
+    // Animal b = a;
+    // cout << "a -> ";
+    // a.print();
+
+    // a.print();
+    // b->print();
+
+    //Animal* b = new Animal();
+    b->age = 30;
     
     return 0;
 }
