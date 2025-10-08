@@ -33,7 +33,7 @@ class Chimpanzee: private Animal {
 int main() {
     Dog d1;
     d1.eat();
-    return 0;
+   
 
     Cat c1;
     c1.print();
@@ -41,4 +41,5 @@ int main() {
     Chimpanzee ch1;
     ch1.print();
 
+    return 0;
 }
