@@ -16,8 +16,19 @@ class Dog: public Animal {
 
 };
 
+class Cat: protected Animal {
+    public:
+    void print(){
+        cout << this->age << " " << this -> weight << endl;
+    }
+};
+
 int main() {
     Dog d1;
     d1.eat();
     return 0;
+
+    Cat c1;
+    c1.print();
+    
 }
