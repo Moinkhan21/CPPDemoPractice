@@ -23,6 +23,13 @@ class Cat: protected Animal {
     }
 };
 
+class Chimpanzee: private Animal {
+    public:
+    void print() {
+        cout << this->age << " " << this->weight << endl;
+    }
+};
+
 int main() {
     Dog d1;
     d1.eat();
@@ -30,5 +37,8 @@ int main() {
 
     Cat c1;
     c1.print();
-    
+
+    Chimpanzee ch1;
+    ch1.print();
+
 }
