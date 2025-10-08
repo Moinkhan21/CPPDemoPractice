@@ -2,10 +2,14 @@
 using namespace std;
  
 class Animal {
-    protected:
-        int age;
+    // protected:
+    //     int age;
+
+    private:
+    int age;
 };
 
+//class Dog.public Animal
 class Dog:private Animal {
     public:
         void print() {
