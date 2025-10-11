@@ -14,16 +14,20 @@ int main() {
 
     x = 4; //Global x
     int x = 20; //Local to main() function
-    cout << x << endl; //Accessing local x
-    cout << ::x << endl; //Accessing global with ::
+    //cout << x << endl; //Accessing local x
+    //cout << ::x << endl; //Accessing global with ::
 
     {
         int x = 50; //Local to this block
+        {
+            int x = 44; //Local to this block
+            cout << x << endl; //Accessing block x
+        }
         cout << x << endl; //Accessing block x
         cout << ::x << endl; //Accessing global with ::
     }
     
-    func(); //Calling func()
+    //func(); //Calling func()
     
     return 0;
 
