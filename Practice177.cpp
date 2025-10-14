@@ -4,7 +4,7 @@ using namespace std;
 class Box
 {
     int width;
-    
+
     //Ctor
     Box(int _w) : width(_w){};
 
@@ -18,11 +18,28 @@ public:
     {
         width = _val;
     }
+
+    friend class BoxFactory;
+};
+
+class BoxFactory
+{
+    int count;
+
+public:
+    Box getABox(int _w)
+    {
+        ++count;
+        return Box(_w);
+    }
 };
 
 int main(){
 
     // Box b(5);
     // Cout << b.getWidth() << endl;
+    BoxFactory bfact;
+    Box b = bfact.getABox(5);
+    cout << b.getWidth() << endl;
     return 0;
 }
