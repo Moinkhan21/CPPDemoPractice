@@ -18,14 +18,18 @@ class abc
 int main()
 {
     abc a(1, 2);
+    cout << "Print int a\n";
     a.print();
 
     //abc b(a);
-    abc b = a;
+    abc b = a; // Call hota hai, Copy constructor
+    cout << "Print int b\n";
     b.print();
     *b.y = 20;
+    cout << "Print int b\n";
     b.print();
 
+    cout << "Print int a\n";
     a.print();
     return 0;
 }
