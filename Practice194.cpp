@@ -9,6 +9,12 @@ class abc
 
         abc(int _x, int _y) : x(_x), y(new int(_y)) {}
 
+        //Our smart deep copy
+        abc(const abc &obj) {
+            x = obj.x;
+            y = new int(*obj.y);
+        }
+
         void print() const
         {
             printf("X:%d\nPTR Y:%p\nContent of Y (*y):%d\n\n", x, y, *y);
