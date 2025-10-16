@@ -19,6 +19,10 @@ class abc
         {
             printf("X:%d\nPTR Y:%p\nContent of Y (*y):%d\n\n", x, y, *y);
         }
+
+        ~abc() {
+            delete y;
+        }
 };
 
 int main()
