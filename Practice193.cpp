@@ -19,5 +19,9 @@ int main()
 {
     abc a(1, 2);
     a.print();
+
+    //abc b(a);
+    abc b = a;
+    b.print();
     return 0;
 }
