@@ -9,6 +9,12 @@ class abc
 
         abc(int _x, int _y) : x(_x), y(new int(_y)) {}
 
+        // Default dumb copy constructor: it does Shallow copy
+        abc(const abc &obj) {
+            x = obj.x;
+            y = obj.y;
+        }
+
         void print() const
         {
             printf("X:%d\nPTR Y:%p\nContent of Y (*y):%d\n\n", x, y, *y);
