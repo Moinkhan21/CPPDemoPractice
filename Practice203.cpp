@@ -63,6 +63,30 @@ void insertAtHead(Node* &head, Node* &tail, int data) {
     head = newNode;
 }
 
+
+void insertAtTail(Node* &head, Node* &tail, int data) {
+    if(head == NULL) {
+        //LL is empty
+        Node* newNode = new Node(data);
+        head = newNode;
+        tail = newNode;
+        return;
+    }
+
+    //LL is not empty
+    //Step 1 :
+    Node* newNode = new Node(data);
+
+    //Step 2 :
+    tail -> next = newNode;
+
+    //Step 3 :
+    newNode -> prev = tail;
+
+    //Step 4 :
+    tail = newNode;
+
+}
 int main() {
      
     Node* first = new Node(10);
@@ -82,6 +106,12 @@ int main() {
 
     insertAtHead(head, tail, 101);
 
+    cout << endl;
+    print(head);
+
+    cout << endl;
+
+    insertAtTail(head, tail, 501);
     cout << endl;
     print(head);
 
