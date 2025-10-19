@@ -40,11 +40,36 @@ int getLength(Node* head) {
     return len;
 }
 
+void insertAtHead(Node* &head, Node* &tail, int data) {
+    if(head == NULL) {
+        //LL is empty
+        Node* newNode = new Node(data);
+        head = newNode;
+        tail = newNode;
+        return;
+    }
+
+    //LL is non-empty
+    //Step 1 : create a node
+    Node* newNode = new Node(data);
+
+    //Step 2 :
+    newNode -> next = head;
+
+    //Step 3 :
+    head -> prev = newNode;
+
+    //Step 4 :
+    head = newNode;
+}
+
 int main() {
      
     Node* first = new Node(10);
     Node* second = new Node(20);
     Node* third = new Node(30);
+    Node* head = first;
+    Node* tail = third;
 
     first -> next = second;
     second -> prev = first;
@@ -53,6 +78,12 @@ int main() {
     third -> prev = second;
 
     print(first);
+    cout << endl;
+
+    insertAtHead(head, tail, 101);
+
+    cout << endl;
+    print(head);
 
     return 0;
 }
