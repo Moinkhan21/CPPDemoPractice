@@ -62,7 +62,8 @@ int main() {
 
     print(head);
 
-    
+    cout << endl;
+    cout << "Middle Node is: " << getMiddle(head) -> data << endl;
 
     return 0;
 }
