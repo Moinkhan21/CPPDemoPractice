@@ -1,129 +1,67 @@
 #include <iostream>
 using namespace std;
 
+// ===============================
+// ✅ Node class definition
+// Represents a single node in a linked list
+// Each node contains data and a pointer to the next node
+// ===============================
 class Node {
-
     public:
-    int data;
-    Node* next;
+    int data;       // Stores the data value of the node
+    Node* next;     // Pointer to the next node in the linked list
 
+    // ✅ Constructor to initialize node with given data
     Node(int data) {
-        this -> data = data;
-        this -> next = NULL;
+        this -> data = data;   // Assign value to the node
+        this -> next = NULL;   // Initialize next pointer as NULL
     }
 };
 
-void print(Node* head) {
-    Node* temp = head;
-    while(temp != NULL) {
-        cout << temp -> data << "->";
-        temp = temp -> next;
-    }
-    cout << endl;
-}
-
-Node* getMiddle(Node* &head) {
+// ===============================
+// ✅ Function to detect a loop in a linked list
+// This uses Floyd’s Cycle Detection Algorithm (also known as Tortoise and Hare algorithm)
+// - Slow pointer moves one step at a time
+// - Fast pointer moves two steps at a time
+// If they meet, it means a loop exists
+// ===============================
+bool checkForLoop(Node* &head) {
+    // ✅ Step 1: Check if list is empty
     if(head == NULL) {
         cout << "LL is empty" << endl;
-        return head;
+        return false;  // No loop possible in an empty list
     }
 
-    if(head -> next == NULL) {
-        //Only 1 node in LL
-        return head;
-    }
+    // ✅ Step 2: Initialize two pointers
+    Node* slow = head;  // Moves 1 step each iteration
+    Node* fast = head;  // Moves 2 steps each iteration
 
-    //LL have more than one node
-    Node* slow = head;
-    Node* fast = head -> next;
-
-    while(slow != NULL && fast != NULL) {
-        fast = fast -> next;
+    // ✅ Step 3: Traverse the linked list
+    while(fast != NULL) {   // Continue until fast reaches the end
+        fast = fast -> next;  // Move fast one step
         if(fast != NULL) {
-            fast = fast -> next;
-            slow = slow -> next;
+            fast = fast -> next;  // Move fast one more step (total 2 steps)
+            slow = slow -> next;  // Move slow one step
+        }
+
+        // ✅ Step 4: If slow and fast meet, a loop exists
+        if(slow == fast) {
+            //Loop present
+            return true;
         }
     }
-    return slow;
-}
 
-int getLength(Node* head) {
-    int len = 0;
-    Node* temp = head;
-    while (temp != NULL)
-    {
-        temp = temp -> next;
-        len++;
-    }
-    return len;
-    
-}
-
-Node* reverseKNodes(Node* &head, int k) {
-
-    if(head == NULL) {
-        cout << "LL is empty" << endl;
-        return NULL;
-    }
-
-    int len = getLength(head);
-    if(k > len) {
-        cout << "Enter valid value for K " << endl;
-        return head;
-    }
-
-    //It means number of nodes in LL is >== k
-    //Step A: reverse first k nodes of LL
-    Node* prev = NULL;
-    Node* curr = head;
-    Node* forward = curr -> next;
-    int count = 0;
-
-    while (count < k)
-    {
-        forward = curr -> next;
-        curr -> next = prev;
-        prev = curr;
-        curr = forward;
-        count++;
-    }
-    
-    //Step B: revursive call
-    if(forward != NULL) {
-        //We still have nodes left to reverse
-        head -> next = reverseKNodes(forward, k);
-    }
-
-    //Step C: return head of the modified LL
-    return prev;
-}
-
-bool checkForLoop(Node* &head) {
-    if(head == NULL) {
-        cout << "LL is empty" << endl;
-        return false;
-    }
-
-    Node* slow = head;
-    Node* fast = head;
-
-    while(fast != NULL) {
-        fast = fast -> next;
-            if(fast != NULL) {
-                fast = fast -> next;
-                slow = slow -> next;
-            }
-
-            if(slow == fast) {
-                //Loop present
-                return true;
-            }
-    }
+    // ✅ Step 5: If loop ends, no loop is found
     //fast NULL hogya
     return false;
 }
 
+// ===============================
+// ✅ Main function: Entry point of the program
+// Creates a linked list manually and checks if a loop is present
+// ===============================
 int main() {
+    // ✅ Step 1: Create nodes dynamically
     Node* head = new Node(10);
     Node* second = new Node(20);
     Node* third = new Node(30);
@@ -134,6 +72,7 @@ int main() {
     Node* eighth = new Node(80);
     Node* ninth = new Node(90);
 
+    // ✅ Step 2: Link the nodes together to form a linear linked list
     head -> next = second;
     second -> next = third;
     third -> next = fourth;
@@ -142,9 +81,13 @@ int main() {
     sixth -> next = seventh;
     seventh -> next = eighth;
     eighth -> next = ninth;
-    ninth -> next = fifth;
-    //ninth -> next = NULL;
 
+    // ✅ Step 3: Create a loop in the linked list
+    // Here, the 9th node points back to the 5th node — forming a loop
+    ninth -> next = fifth;
+    //ninth -> next = NULL; // Uncomment this line and comment the above one to remove the loop
+
+    // ✅ Step 4: Detect loop presence
     cout << "Loop is present or not " << checkForLoop(head);
     
     return 0;
