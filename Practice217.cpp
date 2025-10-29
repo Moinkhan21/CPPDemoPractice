@@ -1,84 +1,95 @@
 #include <iostream>
 using namespace std;
 
-class Node{
-    public:
-        int data;
-        Node* next;
+// ===============================
+// ✅ Node class definition
+// Represents a single node in the linked list
+// ===============================
+class Node {
+public:
+    int data;       // Stores the node's data
+    Node* next;     // Pointer to the next node in the list
 
+    // ✅ Constructor initializes the node's data and sets next to NULL
     Node(int data) {
-        this -> data = data;
-        this -> next = NULL;
+        this->data = data;
+        this->next = NULL;
     }
 };
 
-Node* reverse(Node* head) {
-
-    Node* prev = NULL;
-    Node* curr = head;
-    Node* next = curr -> next;
-    while(curr != NULL) {
-        next = curr -> next;
-        curr -> next = prev;
-        prev = curr;
-        curr = next;
-    }
-    return prev;
-}
-
+// ===============================
+// ✅ Function: checkPalindrome
+// Checks if a given singly linked list is a palindrome using iteration.
+// ===============================
 bool checkPalindrome(Node*& head) {
 
-    if(head == NULL) {
+    // ✅ Step 1: Handle edge cases
+    if (head == NULL) {
         cout << "LL is empty" << endl;
+        return true; // Empty list is considered palindrome
+    }
+
+    if (head->next == NULL) {
+        // ✅ Only one node → Always a palindrome
         return true;
     }
 
-    if(head -> next == NULL) {
-        //Only 1 node
-        return true;
-    }
-
-    // >1 node in LL
-
-    // Step A: find the middle node
+    // ✅ Step 2: Find the middle node using slow and fast pointer approach
+    // - 'slow' moves one step at a time
+    // - 'fast' moves two steps at a time
     Node* slow = head;
-    Node* fast = head -> next;
+    Node* fast = head->next;
 
-    while(fast != NULL) {
-        fast = fast -> next;
-        if(fast != NULL) {
-            fast = fast -> next;
-            slow = slow -> next;
+    while (fast != NULL) {
+        fast = fast->next;
+        if (fast != NULL) {
+            fast = fast->next;
+            slow = slow->next;
         }
     }
-    //Slow pointer is pointing to the middle node
+    // After loop → 'slow' is pointing at the middle node
 
-    //Step B: reverse LL after middle/slow node
-    Node* reverseLLKaHead = reverse(slow -> next);
+    // ✅ Step 3: Reverse the second half of the linked list (in-place)
+    Node* prev = NULL;
+    Node* curr = slow->next;
+    Node* next = NULL;
 
-    //Join the reversed LL into the left part
-    slow -> next = reverseLLKaHead;
+    while (curr != NULL) {
+        next = curr->next;   // Store next node
+        curr->next = prev;   // Reverse the link
+        prev = curr;         // Move prev one step ahead
+        curr = next;         // Move curr one step ahead
+    }
 
-    //Step C: start comparison;
-    Node* temp1 = head;
-    Node* temp2 = reverseLLKaHead;
+    // ✅ 'prev' now points to the head of the reversed second half
+    slow->next = prev; // Join the two halves
 
-    while(temp2 != NULL) {
-        if(temp1 -> data != temp2 -> data) {
-            // Not a palindrome
+    // ✅ Step 4: Compare first half and reversed second half
+    Node* temp1 = head;      // Start from beginning
+    Node* temp2 = prev;      // Start from reversed second half
+
+    while (temp2 != NULL) {
+        if (temp1->data != temp2->data) {
+            // ❌ Mismatch found → Not a palindrome
             return false;
-        }
-        else{
-            //If data is equal, then aage badh jao
-            temp1 = temp1 -> next;
-            temp2 = temp2 -> next;
+        } else {
+            // ✅ Move both pointers one step ahead
+            temp1 = temp1->next;
+            temp2 = temp2->next;
         }
     }
+
+    // ✅ Step 5: If all elements matched → It's a palindrome
     return true;
 }
 
+// ===============================
+// ✅ Main function
+// Creates a sample linked list and checks palindrome property
+// ===============================
 int main() {
 
+    // ✅ Creating linked list nodes
     Node* head = new Node(10);
     Node* second = new Node(20);
     Node* third = new Node(30);
@@ -86,19 +97,21 @@ int main() {
     Node* fifth = new Node(20);
     Node* sixth = new Node(10);
 
-    head -> next = second;
-    second -> next = third;
-    third -> next = fourth;
-    fourth -> next = fifth;
-    fifth -> next = sixth;
-    sixth -> next = NULL;
+    // ✅ Linking all nodes together
+    head->next = second;
+    second->next = third;
+    third->next = fourth;
+    fourth->next = fifth;
+    fifth->next = sixth;
+    sixth->next = NULL;
 
+    // ✅ Check if the linked list is a palindrome
     bool isPalindrome = checkPalindrome(head);
 
-    if(isPalindrome) {
+    // ✅ Display the result
+    if (isPalindrome) {
         cout << "LL is a valid palindrome" << endl;
-    }
-    else {
+    } else {
         cout << "LL is not a valid palindrome" << endl;
     }
 
