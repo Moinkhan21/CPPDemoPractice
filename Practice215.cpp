@@ -1,18 +1,26 @@
 #include <iostream>
 using namespace std;
 
+// =============================================
+// ✅ Node class definition for Linked List
+// Each node contains 'data' and a pointer 'next'
+// =============================================
 class Node {
-
     public:
-    int data;
-    Node* next;
+    int data;      // stores node's value
+    Node* next;    // pointer to the next node
 
+    // Constructor — initializes node with given data
     Node(int data) {
         this -> data = data;
         this -> next = NULL;
     }
 };
 
+// =============================================
+// ✅ Function: print()
+// Prints the Linked List until NULL is encountered
+// =============================================
 void print(Node* head) {
     Node* temp = head;
     while(temp != NULL) {
@@ -22,107 +30,45 @@ void print(Node* head) {
     cout << endl;
 }
 
-Node* getMiddle(Node* &head) {
-    if(head == NULL) {
-        cout << "LL is empty" << endl;
-        return head;
-    }
-
-    if(head -> next == NULL) {
-        //Only 1 node in LL
-        return head;
-    }
-
-    //LL have more than one node
-    Node* slow = head;
-    Node* fast = head -> next;
-
-    while(slow != NULL && fast != NULL) {
-        fast = fast -> next;
-        if(fast != NULL) {
-            fast = fast -> next;
-            slow = slow -> next;
-        }
-    }
-    return slow;
-}
-
-int getLength(Node* head) {
-    int len = 0;
-    Node* temp = head;
-    while (temp != NULL)
-    {
-        temp = temp -> next;
-        len++;
-    }
-    return len;
-    
-}
-
+// =============================================
+// ✅ Function: checkForLoop()
+// Detects if a loop exists in the linked list using
+// Floyd’s Cycle Detection Algorithm (Tortoise-Hare)
+// =============================================
 bool checkForLoop(Node* &head) {
     if(head == NULL) {
         cout << "LL is empty" << endl;
         return false;
     }
 
-    Node* slow = head;
-    Node* fast = head;
+    Node* slow = head;  // moves 1 step
+    Node* fast = head;  // moves 2 steps
 
+    // Continue until fast reaches the end
     while(fast != NULL) {
-        fast = fast -> next;
-            if(fast != NULL) {
-                fast = fast -> next;
-                slow = slow -> next;
-            }
+        fast = fast -> next; // move fast one step
 
-            if(slow == fast) {
-                //Loop present
-                return true;
-            }
+        if(fast != NULL) {   // if possible, move fast one more step
+            fast = fast -> next;
+            slow = slow -> next; // move slow by one
+        }
+
+        if(slow == fast) {
+            // ✅ Loop detected
+            return true;
+        }
     }
-    //fast NULL hogya
+    // fast becomes NULL => no loop
     return false;
 }
 
-Node* reverseKNodes(Node* &head, int k) {
-
-    if(head == NULL) {
-        cout << "LL is empty" << endl;
-        return NULL;
-    }
-
-    int len = getLength(head);
-    if(k > len) {
-        cout << "Enter valid value for K " << endl;
-        return head;
-    }
-
-    //It means number of nodes in LL is >== k
-    //Step A: reverse first k nodes of LL
-    Node* prev = NULL;
-    Node* curr = head;
-    Node* forward = curr -> next;
-    int count = 0;
-
-    while (count < k)
-    {
-        forward = curr -> next;
-        curr -> next = prev;
-        prev = curr;
-        curr = forward;
-        count++;
-    }
-    
-    //Step B: revursive call
-    if(forward != NULL) {
-        //We still have nodes left to reverse
-        head -> next = reverseKNodes(forward, k);
-    }
-
-    //Step C: return head of the modified LL
-    return prev;
-}
-
+// =============================================
+// ✅ Function: startingPointLoop()
+// Finds the starting node where the loop begins
+// Step 1: Detect intersection using Floyd’s Algorithm
+// Step 2: Move 'slow' to head, then move both one step
+//         at a time; the meeting point = loop start
+// =============================================
 Node* startingPointLoop(Node* &head) {
     if(head == NULL) {
         cout << "LL is empty" << endl;
@@ -132,27 +78,40 @@ Node* startingPointLoop(Node* &head) {
     Node* slow = head;
     Node* fast = head;
 
+    // Step 1: Detect loop using Floyd's approach
     while(fast != NULL) {
         fast = fast -> next;
-            if(fast != NULL) {
-                fast = fast -> next;
-                slow = slow -> next;
-            }
+        if(fast != NULL) {
+            fast = fast -> next;
+            slow = slow -> next;
+        }
 
-            if(slow == fast) {
-                slow = head;
-                break;
-            }
+        if(slow == fast) {
+            // When they meet, reset slow to head
+            slow = head;
+            break;
+        }
     }
-    
+
+    // Step 2: Move both pointers one step at a time
+    // The meeting point is the start of the loop
     while(slow != fast) {
         slow = slow -> next;
         fast = fast -> next;
     }
 
-    return fast;
+    return fast; // or slow — both are same here
 }
 
+// =============================================
+// ✅ Function: removeLoop()
+// Removes the loop from linked list by setting
+// the last node of loop's next pointer to NULL
+// Steps:
+// 1. Detect loop using Floyd’s algorithm
+// 2. Find loop start
+// 3. Traverse until node before loop start & make next = NULL
+// =============================================
 Node* removeLoop(Node* &head) {
     if(head == NULL) {
         cout << "LL is empty" << endl;
@@ -162,31 +121,43 @@ Node* removeLoop(Node* &head) {
     Node* slow = head;
     Node* fast = head;
 
+    // Step 1: Detect intersection point
     while(fast != NULL) {
         fast = fast -> next;
-            if(fast != NULL) {
-                fast = fast -> next;
-                slow = slow -> next;
-            }
+        if(fast != NULL) {
+            fast = fast -> next;
+            slow = slow -> next;
+        }
 
-            if(slow == fast) {
-                slow = head;
-                break;
-            }
+        if(slow == fast) {
+            // Loop detected, reset slow to head
+            slow = head;
+            break;
+        }
     }
-    
+
+    // Step 2: Traverse until one node before the starting node of loop
     Node* prev = fast;
     while(slow != fast) {
         prev = fast;
         slow = slow -> next;
         fast = fast -> next;
     }
+
+    // Step 3: Break the loop
     prev -> next = NULL;
 
-    return fast;
+    return fast; // Return loop starting node
 }
 
+// =============================================
+// ✅ main()
+// Creates a linked list, manually introduces a loop,
+// checks for loop, finds starting point, removes it,
+// and verifies again.
+// =============================================
 int main() {
+    // Creating linked list nodes
     Node* head = new Node(10);
     Node* second = new Node(20);
     Node* third = new Node(30);
@@ -197,6 +168,7 @@ int main() {
     Node* eighth = new Node(80);
     Node* ninth = new Node(90);
 
+    // Linking nodes sequentially
     head -> next = second;
     second -> next = third;
     third -> next = fourth;
@@ -205,17 +177,22 @@ int main() {
     sixth -> next = seventh;
     seventh -> next = eighth;
     eighth -> next = ninth;
-    ninth -> next = fifth;
-    //ninth -> next = NULL;
+    ninth -> next = fifth; // ✅ creating a loop (90 -> 50)
 
-    cout << "Loop is present or not " << checkForLoop(head) << endl;
+    // Checking for loop
+    cout << "Loop is present or not: " << checkForLoop(head) << endl;
 
+    // Finding starting point of loop
     cout << "Starting point of LOOP is: " << startingPointLoop(head) -> data << endl;
-    
+
+    // Removing the loop
     removeLoop(head);
+
+    // Printing list after loop removal
     print(head);
 
-    cout << "Loop is present or not " << checkForLoop(head) << endl;
+    // Recheck for loop after removal
+    cout << "Loop is present or not: " << checkForLoop(head) << endl;
 
     return 0;
 }
