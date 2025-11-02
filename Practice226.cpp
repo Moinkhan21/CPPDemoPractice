@@ -88,3 +88,4 @@ int main() {
     cout << "Flattened list: ";
     printList(head);
 }
+ 
