@@ -6,31 +6,45 @@ public:
     int data;
     ListNode* next;
 
+    // Constructor to initialize node with value
     ListNode(int val) {
         data = val;
         next = NULL;
     }
 };
 
+// ✅ Function to find middle node of linked list
+// Uses Fast & Slow pointer technique
 ListNode* findMid(ListNode* head) {
-    ListNode* slow = head;
-    ListNode* fast = head->next;
+    ListNode* slow = head;        // moves 1 step
+    ListNode* fast = head->next;  // moves 2 steps
 
+    /*
+        Fast pointer moves twice as fast as slow.
+        When fast reaches end, slow will be at middle.
+        We return slow, which will be end of left half.
+    */
     while(fast && fast->next) {
         slow = slow->next;
         fast = fast->next->next;
     }
-    return slow;
+    return slow; // mid node
 }
 
+// ✅ Merge two sorted linked lists
 ListNode* merge(ListNode* left, ListNode* right) {
 
+    // If any list is empty, return the other
     if(left == NULL) return right;
     if(right == NULL) return left;
 
-    ListNode* ans = new ListNode(-1);  // Dummy node
-    ListNode* mptr = ans;
+    ListNode* ans = new ListNode(-1);  // Dummy node to start merged list
+    ListNode* mptr = ans;              // Pointer to build result list
 
+    /*
+        Compare nodes from both lists and attach smaller one
+        Continue until one list becomes empty
+    */
     while(left && right) {
         if(left->data <= right->data) {
             mptr->next = left;
@@ -44,40 +58,46 @@ ListNode* merge(ListNode* left, ListNode* right) {
         }
     }
 
+    // If nodes remain in left list, append them
     while(left != NULL) {
         mptr->next = left;
         mptr = left;
         left = left->next;
     }
 
+    // If nodes remain in right list, append them
     while(right != NULL) {
         mptr->next = right;
         mptr = right;
         right = right->next;
     }
 
-    return ans->next; // skip dummy node
+    return ans->next; // Skip dummy and return actual head
 }
 
+// ✅ Recursive Merge Sort on Linked List
 ListNode* sortList(ListNode* head) {
+
+    // Base condition: if list empty OR only one node -> already sorted
     if(head == NULL || head->next == NULL) {
         return head;
     }
 
-    // Break LL into halves
+    // Break LL into two halves
     ListNode* mid = findMid(head);
-    ListNode* left = head;
-    ListNode* right = mid->next;
-    mid->next = NULL;
+    ListNode* left = head;         // Left half starts at head
+    ListNode* right = mid->next;   // Right half after middle
+    mid->next = NULL;              // Break the list into two parts
 
-    // Sort both halves
+    // Recursively sort both halves
     left = sortList(left);
     right = sortList(right);
 
-    // Merge the halves
+    // Merge the two sorted halves
     return merge(left, right);
 }
 
+// ✅ Utility function to print linked list
 void printList(ListNode* head) {
     while(head != NULL) {
         cout << head->data << " ";
@@ -96,6 +116,7 @@ int main() {
     cout << "Original List: ";
     printList(head);
 
+    // ✅ Call merge sort on Linked List
     head = sortList(head);
 
     cout << "Sorted List: ";
