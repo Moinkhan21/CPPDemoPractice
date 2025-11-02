@@ -17,21 +17,33 @@ public:
 };
 
 Node* helper(Node* head, unordered_map<Node*, Node*>& mp) {
+    // Base case: if original list ends, return NULL
     if(head == NULL) return NULL;
 
+    // Create a new node (clone) with same value as current original node
     Node* newHead = new Node(head->val);
+
+    // Store mapping between original node → cloned node
     mp[head] = newHead;
 
+    // Recursively copy the rest of the list
+    // Assign the next pointer of cloned node
     newHead->next = helper(head->next, mp);
 
+    // Set the random pointer for cloned node
+    // Using map to get the cloned version of original's random target
     if(head->random)
         newHead->random = mp[head->random];
 
+    // Return cloned head pointer
     return newHead;
 }
 
 Node* copyRandomList(Node* head) {
+    // map to store mapping: original node -> cloned node
     unordered_map<Node*, Node*> mp;  // original -> cloned node map
+    
+    // Call helper to create a deep copy
     return helper(head, mp);
 }
 
@@ -64,6 +76,7 @@ int main() {
     cout << "Original List:\n";
     printList(head);
 
+    // Create cloned list
     Node* clone = copyRandomList(head);
 
     cout << "\nCloned List:\n";
