@@ -1,6 +1,13 @@
 #include <iostream>
 using namespace std;
 
+// ================================
+// ✅ Node structure (represents each node in LL)
+// Each node contains:
+//   ➤ val     : integer data
+//   ➤ next    : pointer to next node
+//   ➤ random  : pointer to ANY node in the list or NULL
+// ================================
 class Node {
 public:
     int val;
@@ -14,41 +21,65 @@ public:
     }
 };
 
+// ==========================================================
+// ✅ Function to clone a Linked List with random pointers
+// Approach: Iterative (O(n) time, O(1) extra space)
+// Steps:
+//   1️⃣ Insert cloned nodes in between original nodes
+//   2️⃣ Set random pointers for cloned nodes
+//   3️⃣ Separate original & cloned list
+// ==========================================================
 Node* copyRandomList(Node* head) {
+    // If head is NULL, return NULL (empty list case)
     if(!head) return NULL;
 
-    // Step 1: Clone each node and place the cloned node after the original
+    // -------------------------------
+    // Step 1: Create clones & insert right after each original node
+    // Example:
+    // Original: 1 -> 2 -> 3
+    // After Step 1: 1 -> 1' -> 2 -> 2' -> 3 -> 3'
+    // -------------------------------
     Node* it = head;
     while(it) {
-        Node* clonedNode = new Node(it->val);
-        clonedNode->next = it->next;
-        it->next = clonedNode;
-        it = clonedNode->next;
+        Node* clonedNode = new Node(it->val);  // Create clone
+        clonedNode->next = it->next;           // Clone points to original's next
+        it->next = clonedNode;                 // Insert clone after original
+        it = clonedNode->next;                 // Move to next original node
     }
 
+    // -------------------------------
     // Step 2: Assign random pointers to cloned nodes
+    // Logic: clone->random = original->random->next (because right next is clone)
+    // -------------------------------
     it = head;
     while(it) {
         if(it->random)
-            it->next->random = it->random->next;
-        it = it->next->next;
+            it->next->random = it->random->next; // Set clone random pointer
+        it = it->next->next;  // Move to next original node
     }
 
-    // Step 3: Separate original and cloned lists
-    it = head;
-    Node* clonedHead = head->next;
+    // -------------------------------
+    // Step 3: Separate original & cloned list
+    // Restore original list and extract cloned list
+    // -------------------------------
+    it = head;               
+    Node* clonedHead = head->next; // Head of cloned list
+
     while(it) {
-        Node* clonedNode = it->next;
-        it->next = clonedNode->next;
+        Node* clonedNode = it->next;       // Clone node
+        it->next = clonedNode->next;       // Original next back to original
         if(clonedNode->next)
-            clonedNode->next = clonedNode->next->next;
-        it = it->next;
+            clonedNode->next = clonedNode->next->next; // Clone next to next clone
+        it = it->next; // Move to next original node
     }
     
-    return clonedHead;
+    return clonedHead; // Return start of cloned list
 }
 
-// Utility: print list with random pointers
+// ==========================================
+// ✅ Utility: Print linked list with random pointers
+// Format: Node value and its Random node value
+// ==========================================
 void printList(Node* head) {
     Node* temp = head;
     while(temp) {
