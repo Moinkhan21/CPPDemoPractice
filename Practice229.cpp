@@ -14,47 +14,53 @@ public:
 };
 
 // Function to get the length of the linked list
+// Iterates through list and counts number of nodes
 int getLength(ListNode* head){
     int len = 0;
     while(head) {
-        ++len;
-        head = head -> next;
+        ++len;                // Increase count
+        head = head -> next;  // Move to next node
     }
-    return len;
+    return len;               // Return total length
 }
 
 ListNode* rotateRight(ListNode* head, int k) {
-    if(!head) return 0; // Empty list
-    if(!head->next) return head; // Only one node
+    if(!head) return 0;          // Empty list, no rotation
+    if(!head->next) return head; // Only one node, no rotation needed
 
+    // Step 1: Find length of linked list
     int len = getLength(head);
     
-    int actualRotateK = k % len;  // Avoid unnecessary rotations
-    if(actualRotateK == 0) return head; // No rotation needed
+    // Step 2: Reduce k to within list range
+    int actualRotateK = k % len;  // If k >= len, only k % len rotations matter
+    if(actualRotateK == 0) return head; // No rotation needed if k is multiple of len
 
-    // Find the (len - k - 1)th node (new last node after rotation)
+    // Step 3: Determine the position of new last node after rotation
+    // New last node will be (len - k - 1)th position (0-based indexing)
     int newLastNodePos = len - actualRotateK - 1;
     ListNode* newLastNode = head;
     
+    // Move pointer to new last node
     for(int i = 0; i < newLastNodePos; i++) {
         newLastNode = newLastNode -> next;
     }
 
-    // New head will be next of new last node
+    // Step 4: New head becomes next node after new last node
     ListNode* newHead = newLastNode -> next;
-    newLastNode -> next = NULL;
+    newLastNode -> next = NULL; // Break list here
 
-    // Traverse to the end of new head and link old head
+    // Step 5: Attach original head at end of rotated part
     ListNode* it = newHead;
-    while(it -> next) {
+    while(it -> next) {          // Move to the end of rotated part
         it = it -> next;
     }
-    it -> next = head;
+    it -> next = head;           // Connect end to original head
 
-    return newHead;
+    return newHead;              // Return new start of list
 }
 
 // Function to print linked list
+// Prints all elements until NULL
 void printList(ListNode* head) {
     while(head) {
         cout << head->val << " ";
@@ -74,6 +80,7 @@ int main() {
     cout << "Original List: ";
     printList(head);
 
+    // Rotate list by k positions
     int k = 2;
     head = rotateRight(head, k);
 
