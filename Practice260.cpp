@@ -1,96 +1,84 @@
-// #include <iostream>
-// #include <vector>
-// #include <algorithm>
-// #include <stack>
-// using namespace std;
-
-// class Car{
-//     public:
-//         int pos, speed;
-//         Car(int p, int s): pos(p), speed(s) {};
-// };
-
-// static bool myComp(Car&a, Car&b) {
-//     return a.pos < b.pos;
-// }
-
-
-//     int carFleet(int target, vector <int>& position, vector<int>& speed) {
-//         vector<Car> cars;
-//         for(int i = 0; i < position.size(); i++) {
-//             Car car(position[i], speed[i]);
-//             cars.push_back(car);
-//         }
-//         sort(cars.begin(), cars.end(), myComp);
-
-//         stack<float> st;
-//         for(auto car:cars) {
-//             float time = (target-car.pos)/((float) car.speed);
-//             while(!st.empty() && time >= st.top()){
-//                 st.pop();
-//             }
-//             st.push(time);
-//         }
-//         return st.size();
-//     }
-
-// int main() {
-//     return 0;
-// }
-
 #include <iostream>
 #include <vector>
 #include <algorithm>
 #include <stack>
 using namespace std;
 
+// ======================================================
+// Class: Car
+// Represents a car with position and speed
+// ======================================================
 class Car {
 public:
     int pos, speed;
     Car(int p, int s) : pos(p), speed(s) {}
 };
 
-// Sort cars by position descending (closest to target first)
+// ======================================================
+// Custom comparator
+// Sort cars based on position in descending order
+// Cars closest to the target are processed first
+// ======================================================
 static bool myComp(Car &a, Car &b) {
     return a.pos > b.pos;
 }
 
 // ======================================================
-// FUNCTION: carFleet()
+// FUNCTION: carFleet
+// ------------------------------------------------------
+// PURPOSE:
+//   Calculate how many "fleets" of cars will arrive at
+//   the target. A fleet is formed when a faster car from
+//   behind catches a slower car ahead and they move
+//   together at the slower car’s speed.
+//
+// APPROACH:
+//   1. Combine positions and speeds into a Car object.
+//   2. Sort cars from closest to farthest from target.
+//   3. Compute time for each car to reach target.
+//   4. Use a STACK to determine when fleets merge:
+//        - If current car takes *less or equal* time
+//          than the fleet ahead → merges into same fleet.
+//        - Else creates a new fleet.
+//
+// Time Complexity:  O(n log n)  (sorting dominates)
+// Space Complexity: O(n)        (stack + car vector)
 // ======================================================
 int carFleet(int target, vector<int>& position, vector<int>& speed) {
     vector<Car> cars;
 
-    // Build car objects
+    // Step 1: Build car objects from inputs
     for (int i = 0; i < position.size(); i++) {
         cars.push_back(Car(position[i], speed[i]));
     }
 
-    // Sort by position descending
+    // Step 2: Sort cars by position descending
     sort(cars.begin(), cars.end(), myComp);
 
-    stack<float> st;  // stack stores arrival times
+    // Stack stores arrival times of fleets
+    stack<float> st;
 
+    // Step 3: Process each car in sorted order
     for (auto &car : cars) {
-        // Compute time to reach the target
         float time = (float)(target - car.pos) / car.speed;
 
-        // Fleet merging logic:
-        // If current car takes less time than the car ahead,
-        // it will catch up → do NOT push (same fleet)
+        // Fleet merging condition:
+        // If current car arrives earlier than or equal to fleet ahead,
+        // it will catch up → does NOT form new fleet.
         if (!st.empty() && time <= st.top()) {
-            continue;   // merges with fleet ahead
+            continue;
         }
 
-        // Otherwise, this car forms a new fleet
+        // Otherwise, this car forms a NEW fleet
         st.push(time);
     }
 
+    // Number of fleets = size of stack
     return st.size();
 }
 
 // ======================================================
-// MAIN (Testing)
+// MAIN — Testing the carFleet function
 // ======================================================
 int main() {
     int target = 12;
