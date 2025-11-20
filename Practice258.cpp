@@ -5,69 +5,114 @@
 #include <vector>
 using namespace std;
 
-// ===============================================================
+// =====================================================================================================
 // FUNCTION: decodeString
-// Decodes patterns like "3[a2[c]]" into "accaccacc"
-// ===============================================================
+// -----------------------------------------------------------------------------------------------------
+// PURPOSE:
+//   Decode encoded strings of the form:
+//       k[encoded_string]
+//   Where the encoded_string inside the square brackets is repeated k times.
+//
+//   Examples:
+//       "3[a]"          → "aaa"
+//       "3[a2[c]]"      → "accaccacc"
+//       "2[abc]3[cd]ef" → "abcabccdcdcdef"
+//
+// APPROACH (Using a Stack):
+//   We scan the string character-by-character.
+//
+//   • Push characters (digits, letters, '[') onto a stack as strings.
+//   • When we encounter ']', we perform decoding:
+//         1. Pop until '[' → this builds the substring to repeat.
+//         2. Pop digits before '[' → this gives the repetition count.
+//         3. Repeat substring count times.
+//         4. Push the decoded substring back onto the stack.
+//
+//   • At the end, stack contains pieces of final decoded string.
+//     Concatenate all to get the result.
+//
+// WHY THIS WORKS:
+//   Nested structures (e.g., 3[a2[c]]) are naturally handled by stack because the inner-most
+//   pattern is always decoded first, then pushed back for outer processing.
+//
+// Time Complexity:  O(n * k)   (k is repetition factor)
+// Space Complexity: O(n)
+// =====================================================================================================
 string decodeString(string s) {
-    stack<string> st;
+    stack<string> st;   // Stack stores digits, "[", and partial decoded substrings
 
     for (char ch : s) {
 
-        // -----------------------------------------
-        // CASE 1: Closing bracket ']' triggers decoding
-        // -----------------------------------------
+        // -----------------------------------------------------------
+        // CASE 1: Found closing bracket ']'
+        //         → time to decode the pattern inside [... ]
+        // -----------------------------------------------------------
         if (ch == ']') {
 
-            // 1️⃣ Extract substring to repeat
+            // -------------------------------------------
+            // STEP 1: Extract the substring inside brackets
+            //         Example: if stack has ["a", "[", "c", "c"]
+            //         We pop until we reach "[".
+            // -------------------------------------------
             string stringToRepeat = "";
             while (!st.empty() && st.top() != "[") {
-                stringToRepeat = st.top() + stringToRepeat;  // FIX order
+                stringToRepeat = st.top() + stringToRepeat;  
                 st.pop();
             }
 
             // Pop the '['
             if (!st.empty()) st.pop();
 
-            // 2️⃣ Extract number before '['
+            // -------------------------------------------
+            // STEP 2: Extract the number before '['
+            //         This number may contain multiple digits.
+            //         Example: "12[abc]" → numericTimes = "12"
+            // -------------------------------------------
             string numericTimes = "";
             while (!st.empty() && isdigit(st.top()[0])) {
-                numericTimes = st.top() + numericTimes;     // FIX order
+                numericTimes = st.top() + numericTimes;
                 st.pop();
             }
 
-            int n = stoi(numericTimes);
+            int n = stoi(numericTimes);  // convert to integer
 
-            // 3️⃣ Repeat the substring
+            // -------------------------------------------
+            // STEP 3: Construct the decoded string
+            // -------------------------------------------
             string decoded = "";
             while (n--) decoded += stringToRepeat;
 
-            // Push back decoded chunk
+            // Push back the entire decoded chunk to stack
             st.push(decoded);
         }
+
+        // -----------------------------------------------------------
+        // CASE 2: Regular character, digit, or '['
+        //         → push it onto the stack as string
+        // -----------------------------------------------------------
         else {
-            // -----------------------------------------
-            // CASE 2: Regular character or '[' or digit
-            // Push as string
-            // -----------------------------------------
             string temp(1, ch);
             st.push(temp);
         }
     }
 
-    // Build final answer
+    // =====================================================================
+    // FINAL STEP:
+    // The stack now contains the decoded pieces in correct order.
+    // Just concatenate them to form the final answer.
+    // =====================================================================
     string ans = "";
     while (!st.empty()) {
-        ans = st.top() + ans;  // FIX order
+        ans = st.top() + ans;   // build from left to right
         st.pop();
     }
 
     return ans;
 }
 
-// ===============================================================
+// =====================================================================================================
 // MAIN FUNCTION — Testing decodeString()
-// ===============================================================
+// =====================================================================================================
 int main() {
     vector<string> tests = {
         "3[a]",
@@ -78,9 +123,9 @@ int main() {
     };
 
     for (string t : tests) {
-        cout << "Input: " << t << endl;
+        cout << "Input:   " << t << endl;
         cout << "Decoded: " << decodeString(t) << endl;
-        cout << "----------------------------------------\n";
+        cout << "------------------------------------------------------\n";
     }
 
     return 0;
