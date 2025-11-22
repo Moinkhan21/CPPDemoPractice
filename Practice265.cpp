@@ -89,6 +89,7 @@ class Deque{
             //Empty check
             if(front == -1) {
                 cout << "Q is empty, cannot pop" << endl;
+                return;
             }
             //Single element
             else if(front == rear) {
@@ -104,6 +105,13 @@ class Deque{
             else {
                 rear--;
             }
+        }
+
+        void print() {
+            for(int i = 0; i < size; i++) {
+                cout << arr[i] << " ";
+            }
+            cout << endl;
         }
 };
 
