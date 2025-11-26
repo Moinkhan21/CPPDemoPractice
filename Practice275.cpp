@@ -3,65 +3,77 @@
 #include <vector>
 using namespace std;
 
-// =============================================================
+// =================================================================================================
 // FUNCTION: maxSlidingWindow
-// Purpose:
-//   Find maximum in each sliding window of size k
-// Approach:
-//   Use a DEQUE to store indices of useful elements.
-//   Maintain the deque in decreasing order of values.
-//   The front of deque always contains the index of the maximum.
-// =============================================================
+// PURPOSE:
+//   Computes the maximum value in every sliding window of size k across the array.
+//
+// HOW IT WORKS:
+//   Uses a **Monotonic Deque** to keep track of the indices of useful elements.
+//   The deque always stores indices in such a way that:
+//       • Their corresponding values are in **decreasing order**.
+//       • The **front** of the deque always represents the index of the **current maximum**.
+//
+// WHY DEQUE?
+//   • pop_front()  → remove elements that slide out of window
+//   • pop_back()   → maintain decreasing order by removing smaller values
+//   • O(n) time   → each element is inserted & removed at most once
+// =================================================================================================
 vector<int> maxSlidingWindow(vector<int>& nums, int k) {
 
-    if (nums.empty() || k == 0) return {};
+    if (nums.empty() || k == 0) return {};  // Edge case: empty input
 
-    deque<int> dq;     // will store indices
-    vector<int> ans;
+    deque<int> dq;     // stores indices of useful elements
+    vector<int> ans;   // result array
 
-    // ---------------------------
-    // Step 1: Process first window
-    // ---------------------------
+    // -------------------------------------------------
+    // STEP 1: Process the first window of size k
+    // -------------------------------------------------
     for (int i = 0; i < k; i++) {
 
-        // Remove indices whose values are <= current element
+        // Remove from back: elements smaller than current element
+        // They cannot be the maximum in this or future windows
         while (!dq.empty() && nums[i] >= nums[dq.back()]) {
             dq.pop_back();
         }
 
-        dq.push_back(i);  // Push index
+        // Store index of current element
+        dq.push_back(i);
     }
 
-    // Maximum of first window
+    // First maximum (at deque front)
     ans.push_back(nums[dq.front()]);
 
-    // ------------------------------------------------------
-    // Step 2: Process remaining windows (i = k to nums.size)
-    // ------------------------------------------------------
+    // -------------------------------------------------
+    // STEP 2: Process the rest of the windows
+    // -------------------------------------------------
     for (int i = k; i < nums.size(); i++) {
 
-        // Remove elements out of this window
+        // A. Remove elements that are now outside the window
+        // Window range: [i-k+1, i]
         if (!dq.empty() && dq.front() <= i - k) {
             dq.pop_front();
         }
 
-        // Remove all smaller elements from the back
+        // B. Remove all elements smaller than current element
+        // Because they won't contribute to future maximums
         while (!dq.empty() && nums[i] >= nums[dq.back()]) {
             dq.pop_back();
         }
 
+        // C. Push current element index
         dq.push_back(i);
 
-        // Front holds index of max element of current window
+        // D. Maximum for this window
         ans.push_back(nums[dq.front()]);
     }
 
     return ans;
 }
 
-// =============================================================
-// MAIN FUNCTION — Testing the Sliding Window Maximum
-// =============================================================
+// =================================================================================================
+// MAIN FUNCTION — Tests the Sliding Window Maximum Function
+// =================================================================================================
 int main() {
     vector<int> nums = {1,3,-1,-3,5,3,6,7};
     int k = 3;
