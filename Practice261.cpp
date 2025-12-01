@@ -40,7 +40,7 @@ vector<double> getCollisionTimes(vector<vector<int>>& cars) {
         while (!st.empty()) {
 
             // If the current car is slower or same speed as the car in front,
-            // it can never catch up → remove the car from stack
+            // it can never catch up → remove the car from sstack
             if (cars[i][1] <= cars[st.top()][1]) {
                 st.pop();
                 continue;
