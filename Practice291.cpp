@@ -46,6 +46,40 @@ Node* buildTreeFromPreOrderInOrder(int inorder[], int preorder[], int size, int 
         return root;
 }
 
+void levelOrderTraversal(Node* root) {
+    queue<Node*> q;
+
+    //Initially
+    q.push(root);
+    q.push(NULL);
+
+    while(!q.empty()) {
+        //A
+        Node* temp = q.front();
+
+        //B
+        q.pop();
+
+        if(temp == NULL) {
+            cout << endl;
+            if(!q.empty()) {
+                q.push(NULL);
+            }
+        }
+        else {
+            //C
+            cout << temp -> data << " ";
+            //D 
+            if(temp -> left) {
+                q.push(temp -> left);
+            }
+            if(temp -> right) {
+                q.push(temp -> right);
+            }
+        }
+    }
+}
+
 int main() {
 
     int inorder[] = {40, 20, 50, 10, 60, 30, 70};
@@ -60,7 +94,7 @@ int main() {
     Node* root = buildTreeFromPreOrderInOrder(inorder, preorder, size, preIndex, inorderStart, inorderEnd);
 
     cout << endl << "Printing level order traversal " << endl;
-    levelOrderTaversal(root);
+    levelOrderTraversal(root);
 
     return 0;
 }
