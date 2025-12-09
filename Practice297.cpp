@@ -35,7 +35,7 @@ Node* buildTree() {
     return root;
 }
 
-void printLeftTree(Node* root, vector<int> &ans, int level) {
+void printLeftView(Node* root, vector<int> &ans, int level) {
 
     //Base case
     if(root == NULL)
@@ -46,10 +46,10 @@ void printLeftTree(Node* root, vector<int> &ans, int level) {
     }
 
     //Left
-    printLeftTree(root -> left, ans, level + 1);
+    printLeftView(root -> left, ans, level + 1);
 
     //Right
-    printLeftTree(root -> right, ans, level + 1);
+    printLeftView(root -> right, ans, level + 1);
 
 }
 
@@ -58,7 +58,7 @@ int main() {
     Node* root = buildTree();
     vector<int> ans;
     int level = 0;
-    printLeftTree(root, ans, level);
+    printLeftView(root, ans, level);
 
     cout << "Printing the Left view: " << endl;
     for(auto i : ans) {
