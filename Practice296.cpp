@@ -35,7 +35,7 @@ Node* buildTree() {
     return root;
 }
 
-void printTopView(Node* root) {
+void printBottomView(Node* root) {
     if (root == NULL)
         return;
 
@@ -67,7 +67,7 @@ void printTopView(Node* root) {
     }
 
     // Printing the answer
-    cout << "\nTop View of Tree:\n";
+    cout << "\nBottom View of Tree:\n";
     for (auto &i : topNode) {
         cout << i.second << " ";
     }
@@ -78,7 +78,7 @@ int main() {
     cout << "Build Binary Tree (-1 for NULL):\n";
     Node* root = buildTree();
 
-    printTopView(root);
+    printBottomView(root);
 
     return 0;
 }
