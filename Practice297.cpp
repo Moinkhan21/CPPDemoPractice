@@ -45,7 +45,7 @@ void printLeftView(Node* root, vector<int> &ans, int level) {
         ans.push_back(root -> data);
     }
 
-    //Left
+    //Left 
     printLeftView(root -> left, ans, level + 1);
 
     //Right
