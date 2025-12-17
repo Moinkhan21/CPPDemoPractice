@@ -98,7 +98,7 @@ int maxVal(Node* root) {
     }
 
     while(temp -> right != NULL) {
-        temp = temp -> right;
+        temp = temp -> right; 
     }
     return temp -> data;
 }
