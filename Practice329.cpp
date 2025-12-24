@@ -92,7 +92,7 @@ int main() {
     TreeNode* root = bstFromPreorder(preorder);
 
     cout << "Level Order Traversal of BST:\n";
-    levelOrderTraversal(root);
+    levelOrderTraversal(root); 
 
     return 0;
 }
