@@ -4,15 +4,24 @@
 #include <algorithm>
 using namespace std;
 
-// ===============================
-// Node Definition
-// ===============================
+// ======================================================================
+// CLASS: Node
+// ----------------------------------------------------------------------
+// Represents a node in a Binary Tree.
+//
+// Each node contains:
+//   • data  → value stored in the node
+//   • left  → pointer to left child
+//   • right → pointer to right child
+// ======================================================================
 class Node {
 public:
     int data;
     Node* left;
     Node* right;
 
+    // Constructor initializes node with given value
+    // and sets both children to NULL
     Node(int data) {
         this->data = data;
         left = NULL;
@@ -20,9 +29,18 @@ public:
     }
 };
 
-// ===============================
-// Level Order Traversal
-// ===============================
+// ======================================================================
+// FUNCTION: levelOrderTraversal()
+// ----------------------------------------------------------------------
+// PURPOSE:
+//   Prints the tree in LEVEL ORDER (BFS).
+//
+// USE CASE:
+//   • Helps visualize the tree structure
+//
+// TIME COMPLEXITY: O(n)
+// SPACE COMPLEXITY: O(n)
+// ======================================================================
 void levelOrderTraversal(Node* root) {
     if (!root) return;
 
@@ -41,9 +59,18 @@ void levelOrderTraversal(Node* root) {
     cout << endl;
 }
 
-// ===============================
-// NodeData Class
-// ===============================
+// ======================================================================
+// CLASS: NodeData
+// ----------------------------------------------------------------------
+// Stores information about a subtree needed to determine
+// whether it is a BST.
+//
+// MEMBERS:
+//   • size     → total number of nodes in subtree
+//   • minVal   → minimum value in subtree
+//   • maxVal   → maximum value in subtree
+//   • validBST → whether subtree is a valid BST
+// ======================================================================
 class NodeData {
 public:
     int size;
@@ -61,25 +88,56 @@ public:
     }
 };
 
-// ===============================
-// Find Largest BST
-// ===============================
+// ======================================================================
+// FUNCTION: findLargestBST()
+// ----------------------------------------------------------------------
+// PURPOSE:
+//   Finds the size of the LARGEST BST present
+//   inside a Binary Tree.
+//
+// APPROACH (Bottom-Up / Postorder):
+//   • Recursively get info from left & right subtrees
+//   • Current subtree is BST if:
+//       1️⃣ Left subtree is BST
+//       2️⃣ Right subtree is BST
+//       3️⃣ root->data > left.maxVal
+//       4️⃣ root->data < right.minVal
+//
+// PARAMETERS:
+//   • root → current node
+//   • ans  → stores maximum BST size found so far
+//
+// TIME COMPLEXITY: O(n)
+// SPACE COMPLEXITY: O(h)
+// ======================================================================
 NodeData findLargestBST(Node* root, int &ans) {
 
-    // Base case
+    // Base case: empty tree is a valid BST
     if (root == NULL) {
         return NodeData(0, INT_MIN, INT_MAX, true);
     }
 
+    // Get information from left and right subtrees
     NodeData leftKaAns = findLargestBST(root->left, ans);
     NodeData rightKaAns = findLargestBST(root->right, ans);
 
     NodeData currNodeKaAns;
 
-    currNodeKaAns.size = leftKaAns.size + rightKaAns.size + 1;
-    currNodeKaAns.maxVal = max(root->data, rightKaAns.maxVal);
-    currNodeKaAns.minVal = min(root->data, leftKaAns.minVal);
+    // --------------------------------------------------
+    // Calculate current subtree information
+    // --------------------------------------------------
+    currNodeKaAns.size =
+        leftKaAns.size + rightKaAns.size + 1;
 
+    currNodeKaAns.maxVal =
+        max(root->data, rightKaAns.maxVal);
+
+    currNodeKaAns.minVal =
+        min(root->data, leftKaAns.minVal);
+
+    // --------------------------------------------------
+    // Check if current subtree is a valid BST
+    // --------------------------------------------------
     if (leftKaAns.validBST &&
         rightKaAns.validBST &&
         (root->data > leftKaAns.maxVal &&
@@ -91,6 +149,9 @@ NodeData findLargestBST(Node* root, int &ans) {
         currNodeKaAns.validBST = false;
     }
 
+    // --------------------------------------------------
+    // Update answer if current subtree is BST
+    // --------------------------------------------------
     if (currNodeKaAns.validBST) {
         ans = max(ans, currNodeKaAns.size);
     }
@@ -98,23 +159,30 @@ NodeData findLargestBST(Node* root, int &ans) {
     return currNodeKaAns;
 }
 
-// ===============================
-// MAIN
-// ===============================
+// ======================================================================
+// MAIN FUNCTION
+// ----------------------------------------------------------------------
+// Builds a Binary Tree and finds the size of the
+// LARGEST BST present inside it.
+//
+// TREE STRUCTURE:
+//
+//            5
+//           /
+//          2
+//         / \
+//        1   3
+//             \
+//              4
+//
+// LARGEST BST:
+//   Subtree rooted at node 2
+//   Nodes: 1, 2, 3
+//   Size = 3
+// ======================================================================
 int main() {
 
-    /*
-            5
-           /
-          2
-         / \
-        1   3
-             \
-              4
-
-    Largest BST size = 3 (subtree rooted at 2)
-    */
-
+    // Constructing the tree
     Node* root = new Node(5);
     Node* first = new Node(2);
     Node* second = new Node(4);
