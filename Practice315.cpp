@@ -2,112 +2,202 @@
 #include <queue>
 using namespace std;
 
+// ======================================================================
+// CLASS: Node
+// ----------------------------------------------------------------------
+// Represents a node in a Binary Search Tree (BST).
+//
+// Each node contains:
+//   • data  → value stored in the node
+//   • left  → pointer to left child
+//   • right → pointer to right child
+// ======================================================================
 class Node {
-    public:
+public:
     int data;
     Node* left;
     Node* right;
 
+    // Constructor initializes node with given value
+    // and sets both children to NULL
     Node(int data) {
-        this -> data = data;
-        this -> left = NULL;
-        this -> right = NULL;
+        this->data = data;
+        this->left = NULL;
+        this->right = NULL;
     }
 };
 
+// ======================================================================
+// FUNCTION: insertIntoBST()
+// ----------------------------------------------------------------------
+// PURPOSE:
+//   Inserts a value into the BST while maintaining BST properties.
+//
+// LOGIC:
+//   • If tree is empty → create a new node
+//   • If data < root->data → insert in left subtree
+//   • Else → insert in right subtree
+//
+// TIME COMPLEXITY:
+//   • Average: O(log n)
+//   • Worst: O(n) (skewed tree)
+// ======================================================================
 Node* insertIntoBST(Node* root, int data) {
-    if(root == NULL) {
-        //This is the first node we have to create
+
+    // Base case: create first node
+    if (root == NULL) {
         root = new Node(data);
         return root;
     }
 
-    //No the first node
-    if(root -> data > data) {
-        //Insert into left
-        root -> left = insertIntoBST(root -> left, data);
+    // Decide left or right subtree
+    if (root->data > data) {
+        // Insert into left subtree
+        root->left = insertIntoBST(root->left, data);
     }
     else {
-        //Insert into right
-        root -> right = insertIntoBST(root -> right, data);
+        // Insert into right subtree
+        root->right = insertIntoBST(root->right, data);
     }
 
     return root;
 }
 
-void takeInput(Node* &root) {
+// ======================================================================
+// FUNCTION: takeInput()
+// ----------------------------------------------------------------------
+// PURPOSE:
+//   Takes input from user and builds the BST.
+//
+// INPUT RULE:
+//   • Input continues until -1 is encountered
+//
+// NOTE:
+//   • Root is passed by reference so updates persist
+// ======================================================================
+void takeInput(Node*& root) {
+
     int data;
     cin >> data;
 
-    while(data != -1) {
+    while (data != -1) {
         root = insertIntoBST(root, data);
         cin >> data;
     }
 }
 
+// ======================================================================
+// FUNCTION: levelOrderTraversal()
+// ----------------------------------------------------------------------
+// PURPOSE:
+//   Prints the BST level by level (Breadth First Search).
+//
+// APPROACH:
+//   • Use a queue
+//   • Use NULL marker to separate levels
+//
+// TIME COMPLEXITY: O(n)
+// SPACE COMPLEXITY: O(n)
+// ======================================================================
 void levelOrderTraversal(Node* root) {
+
     queue<Node*> q;
 
-    //Initially
+    // Initial push
     q.push(root);
-    q.push(NULL);
+    q.push(NULL);   // Marker for level separation
 
-    while(!q.empty()) {
-        //A
+    while (!q.empty()) {
+
         Node* temp = q.front();
-
-        //B
         q.pop();
 
-        if(temp == NULL) {
+        // End of current level
+        if (temp == NULL) {
             cout << endl;
-            if(!q.empty()) {
+            if (!q.empty()) {
                 q.push(NULL);
             }
         }
         else {
-            //C
-            cout << temp -> data << " ";
-            //D 
-            if(temp -> left) {
-                q.push(temp -> left);
+            // Print current node
+            cout << temp->data << " ";
+
+            // Push left and right children
+            if (temp->left) {
+                q.push(temp->left);
             }
-            if(temp -> right) {
-                q.push(temp -> right);
+            if (temp->right) {
+                q.push(temp->right);
             }
         }
     }
 }
 
-//Assuming there are only unique values in tree
+// ======================================================================
+// FUNCTION: findNodeInBST()
+// ----------------------------------------------------------------------
+// PURPOSE:
+//   Searches for a target value in the BST.
+//
+// ASSUMPTION:
+//   • All values in the BST are UNIQUE
+//
+// LOGIC:
+//   • If current node matches target → return true
+//   • If target > root->data → search right subtree
+//   • Else → search left subtree
+//
+// TIME COMPLEXITY:
+//   • Average: O(log n)
+//   • Worst: O(n)
+// ======================================================================
 bool findNodeInBST(Node* root, int target) {
-    //Base case
-    if(root == NULL) {
+
+    // Base case: empty subtree
+    if (root == NULL) {
         return false;
     }
 
-    if(root -> data == target)
+    // Target found
+    if (root->data == target)
         return true;
 
-    if(target > root -> data) {
-        //Right subtree me search karo
-        return findNodeInBST(root -> right, target);
+    // Decide subtree to search
+    if (target > root->data) {
+        // Search in right subtree
+        return findNodeInBST(root->right, target);
     }
     else {
-        return findNodeInBST(root -> left, target);
+        // Search in left subtree
+        return findNodeInBST(root->left, target);
     }
 }
 
+// ======================================================================
+// MAIN FUNCTION
+// ----------------------------------------------------------------------
+// 1️⃣ Builds a BST using user input
+// 2️⃣ Prints the BST using level order traversal
+// 3️⃣ Searches for a specific value in the BST
+//
+// INPUT FORMAT:
+//   Enter values followed by -1 to stop
+// ======================================================================
 int main() {
+
     Node* root = NULL;
+
     cout << "Enter the data for Node" << endl;
     takeInput(root);
+
     cout << "Printing the tree: " << endl;
-    levelOrderTraversal(root); 
+    levelOrderTraversal(root);
     cout << endl;
 
+    // Search for value 15
     bool ans = findNodeInBST(root, 15);
     cout << "Present or not : " << ans << endl;
-    
+
     return 0;
 }
