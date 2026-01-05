@@ -3,122 +3,198 @@
 #include <queue>
 using namespace std;
 
+// ======================================================================
+// CLASS: Node
+// ----------------------------------------------------------------------
+// Represents a node of a Binary Tree.
+//
+// Each node contains:
+//   • data  → value stored in the node
+//   • left  → pointer to left child
+//   • right → pointer to right child
+// ======================================================================
 class Node {
-    public:
-        int data;
-        Node* left;
-        Node* right;
+public:
+    int data;
+    Node* left;
+    Node* right;
 
-        Node(int data) {
-            this -> data = data;
-            this -> left = NULL;
-            this -> right = NULL;
-        }
+    // Constructor initializes node with given value
+    Node(int data) {
+        this->data = data;
+        this->left = NULL;
+        this->right = NULL;
+    }
 };
 
+// ======================================================================
+// FUNCTION: buildTree()
+// ----------------------------------------------------------------------
+// PURPOSE:
+//   Builds a binary tree using recursive input.
+//
+// INPUT RULE:
+//   • Enter -1 to represent NULL node
+//
+// APPROACH:
+//   • Take input for current node
+//   • Recursively build left subtree
+//   • Recursively build right subtree
+//
+// TIME COMPLEXITY: O(n)
+// SPACE COMPLEXITY: O(h)  (recursion stack)
+// ======================================================================
 Node* buildTree() {
+
     int data;
     cout << "Enter the data: " << endl;
     cin >> data;
 
-    // BASE CASE: -1 means no node should be created here
+    // Base case: NULL node
     if (data == -1) {
         return NULL;
     }
 
-    // STEP A: Create a new node with given value
+    // Create current node
     Node* root = new Node(data);
 
-    // STEP B: Build LEFT subtree recursively
+    // Build left subtree
     cout << "Enter data for left part of " << data << " node " << endl;
     root->left = buildTree();
 
-    // STEP C: Build RIGHT subtree recursively
+    // Build right subtree
     cout << "Enter data for right part of " << data << " node " << endl;
     root->right = buildTree();
 
     return root;
 }
 
+// ======================================================================
+// FUNCTION: levelOrderTraversal()
+// ----------------------------------------------------------------------
+// PURPOSE:
+//   Prints the tree level by level (Breadth First Search).
+//
+// APPROACH:
+//   • Use a queue
+//   • NULL marker is used to separate levels
+//
+// TIME COMPLEXITY: O(n)
+// SPACE COMPLEXITY: O(n)
+// ======================================================================
 void levelOrderTraversal(Node* root) {
-    queue<Node*> q;
 
-    //Initially
+    if (!root) return;
+
+    queue<Node*> q;
     q.push(root);
     q.push(NULL);
 
-    while(!q.empty()) {
-        //A
-        Node* temp = q.front();
+    while (!q.empty()) {
 
-        //B
+        Node* temp = q.front();
         q.pop();
 
-        if(temp == NULL) {
+        // End of one level
+        if (temp == NULL) {
             cout << endl;
-            if(!q.empty()) {
+            if (!q.empty())
                 q.push(NULL);
-            }
         }
         else {
-            //C
-            cout << temp -> data << " ";
-            //D 
-            if(temp -> left) {
-                q.push(temp -> left);
-            }
-            if(temp -> right) {
-                q.push(temp -> right);
-            }
+            cout << temp->data << " ";
+
+            if (temp->left)
+                q.push(temp->left);
+
+            if (temp->right)
+                q.push(temp->right);
         }
     }
 }
 
+// ======================================================================
+// FUNCTION: printTopView()
+// ----------------------------------------------------------------------
+// PURPOSE:
+//   Prints the TOP VIEW of a Binary Tree.
+//
+// WHAT IS TOP VIEW?
+//   • Nodes visible when tree is viewed from the top
+//   • For each horizontal distance (HD), only the
+//     FIRST node encountered is considered
+//
+// APPROACH:
+//   • Perform level order traversal (BFS)
+//   • Track horizontal distance (HD)
+//       - root → HD = 0
+//       - left → HD - 1
+//       - right → HD + 1
+//   • Use map to store first node for each HD
+//
+// DATA STRUCTURES USED:
+//   • map<int, int> → stores HD → node data
+//   • queue<pair<Node*, int>> → BFS with HD
+//
+// TIME COMPLEXITY: O(n log n)
+// SPACE COMPLEXITY: O(n)
+// ======================================================================
 void printTopView(Node* root) {
-    if(root == NULL)
+
+    if (root == NULL)
         return;
 
-    //Create a map for storing HD -> TopNode -> data
+    // Map to store first node at each horizontal distance
+    // HD → node data
     map<int, int> topNode;
 
-    //Level order
-    //We will store a pair consisting of Node and Horizontal distance
+    // Queue stores {node, horizontal distance}
     queue<pair<Node*, int>> q;
     q.push(make_pair(root, 0));
 
-    while(!q.empty()) {
-        pair<Node*, int> temp = q.fornt();
+    while (!q.empty()) {
+
+        pair<Node*, int> temp = q.front();
         q.pop();
 
-        Node* forntNode = temp.first;
+        Node* frontNode = temp.first;
         int hd = temp.second;
 
-        //Jo bhi horizontal distance aaya he, check if answer for that hd already exists or not
-        if(topNode.find(hd) == topNode.end()) {
-            //Create entry
-            topNode[hd] = frontNode -> data;
+        // Store node only if this HD is seen for the first time
+        if (topNode.find(hd) == topNode.end()) {
+            topNode[hd] = frontNode->data;
         }
 
-        if(frontNode -> left) {
-            q.push(make_pair(forntNode -> left, hd - 1));
+        // Move left
+        if (frontNode->left) {
+            q.push(make_pair(frontNode->left, hd - 1));
         }
 
-        if(forntNode -> right) {
-            q.push(make_pair(frontNode -> right, hd + 1));
+        // Move right
+        if (frontNode->right) {
+            q.push(make_pair(frontNode->right, hd + 1));
         }
     }
 
-    //Ab aapka answer store hua hoga aapke map me
-    cout << "Printing the answer: " << endl;
-    for(auto i : topNode) {
-        cout << i.first << " ->" << i.second << endl;
+    // Print top view from leftmost HD to rightmost HD
+    cout << "Printing the Top View: " << endl;
+    for (auto i : topNode) {
+        cout << i.second << " ";
     }
-
+    cout << endl;
 }
 
+// ======================================================================
+// MAIN FUNCTION
+// ======================================================================
 int main() {
 
     Node* root = buildTree();
+
+    cout << "\nLevel Order Traversal:\n";
+    levelOrderTraversal(root);
+
+    cout << "\nTop View:\n";
     printTopView(root);
 
     return 0;
