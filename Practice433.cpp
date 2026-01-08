@@ -23,5 +23,12 @@ int main() {
     pq.pop();
     cout << "Size: " << pq.size() << endl;
 
+    if(pq.empty()) {
+        cout << "Max heap is empty" << endl;
+    }
+    else {
+        cout << "Max heap is not empty" << endl;
+    }
+
     return 0;
 }
