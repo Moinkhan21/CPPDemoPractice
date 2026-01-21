@@ -63,7 +63,7 @@ vector<int> merge(Node* root1, Node* root2) {
     // Continue until both trees are fully processed
     while (a || b || !sa.empty() || !sb.empty()) {
 
-        // --------------------------------------------------
+        // -------------------------------------------------- 
         // Push all left children of BST1
         // --------------------------------------------------
         while (a) {
