@@ -31,6 +31,10 @@ int main() {
     }
 
     cout << m.size() << endl;
-    
+
+    //Exception case
+    cout << m["Hummer"] << endl;
+    cout << m.size() << endl;
+
     return 0;
 }
