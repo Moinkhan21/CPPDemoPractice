@@ -1,41 +1,63 @@
 #include <iostream>
 #include <vector>
-#include <queue>
+#include <deque>
 using namespace std;
 
 vector<int> maxSlidingWindow(vector<int>& nums, int k) {
-    deque<int> dq;
 
-    //We will store indexes in deque
+    deque<int> dq; // stores indices
     vector<int> ans;
 
-    //Process frist k size window
-    for(int i = 0; i < k; i++) {
-        while(!dq.empty() && nums[dq.back()] < nums[i])
+    // Edge cases
+    if (nums.empty() || k == 0 || k > nums.size())
+        return ans;
+
+    // Process first window
+    for (int i = 0; i < k; i++) {
+        while (!dq.empty() && nums[dq.back()] < nums[i])
             dq.pop_back();
 
-        //Insert element
         dq.push_back(i);
     }
 
-    //Ans store karlo for 1st window
+    // Store result for first window
     ans.push_back(nums[dq.front()]);
 
-    //Remainin windows
-    for(int i = k; i < nums.size(); i++) {
+    // Process remaining windows
+    for (int i = k; i < nums.size(); i++) {
 
-        //Removal
-        if(!dq.empty() && i - k >= dq.front())
+        // Remove elements out of window
+        if (!dq.empty() && dq.front() <= i - k)
             dq.pop_front();
 
-        //Additional
-        while(!dq.empty() && nums[dq.back()] < nums[i])
+        // Remove smaller elements
+        while (!dq.empty() && nums[dq.back()] < nums[i])
             dq.pop_back();
-        //Insert element
+
         dq.push_back(i);
 
-        //Ans store
+        // Store result
         ans.push_back(nums[dq.front()]);
     }
+
     return ans;
+}
+
+// ===============================
+// MAIN FUNCTION
+// ===============================
+int main() {
+
+    vector<int> nums = {1, 3, -1, -3, 5, 3, 6, 7};
+    int k = 3;
+
+    vector<int> result = maxSlidingWindow(nums, k);
+
+    cout << "Sliding Window Maximum: ";
+    for (int val : result) {
+        cout << val << " ";
+    }
+    cout << endl;
+
+    return 0;
 }
