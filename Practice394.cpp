@@ -6,7 +6,7 @@ void setIthBit(int n, int i) {
     int mask = 1 << i;
     int ans = n | mask;
     cout << "After setting: " << ans << endl;
-    
+
 }
 
 int main() {
@@ -15,7 +15,7 @@ int main() {
     int n;
     cin >> n;
 
-    cout << "Enter value of i for bit masking: " << endl;
+    cout << "Enter value of i for setting bit (masking): " << endl;
     int i;
     cin >> i;
  
