@@ -19,7 +19,7 @@ int main() {
     cout << "Enter value of i for bit masking: " << endl;
     int i;
     cin >> i;
-
+ 
     int ans = getIthBit(n, i);
     cout << "After performing operation of bit masking the answer is: " << endl;
     cout << ans << endl;
