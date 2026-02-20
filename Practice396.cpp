@@ -7,7 +7,7 @@ void clearIthBit(int& n, int i) {
 }
 
 void updateIthBit(int& n, int i, int target) {
-    clearIthBit(n, i);
+    clearIthBit(n, i); 
     int mask = target << i;
     n = n | mask;
     cout << "After updating: " << n << endl;
