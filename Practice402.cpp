@@ -11,6 +11,6 @@ void clearBitsInRange(int n, int i, int j) {
 
 int main() {
 
-    clearBitsInRange(15, 2, 1);
+    clearBitsInRange(15, 3, 0);
     return 0;
 }
