@@ -7,10 +7,14 @@ using namespace std;
 // CLASS: Node
 // ----------------------------------------------------------------------
 // Represents a node of a Binary Tree.
+//
 // Each node contains:
 //   • data  → integer value stored in the node
 //   • left  → pointer to left child
 //   • right → pointer to right child
+//
+// The constructor initializes the node value
+// and sets both children to NULL.
 // ======================================================================
 class Node {
 public:
@@ -18,8 +22,6 @@ public:
     Node* left;
     Node* right;
 
-    // Constructor initializes node with given value
-    // and sets left & right children to NULL
     Node(int data) {
         this->data = data;
         left = NULL;
@@ -31,59 +33,103 @@ public:
 // FUNCTION: diagonal()
 // ----------------------------------------------------------------------
 // PURPOSE:
-//   Performs DIAGONAL TRAVERSAL of a binary tree.
+//   Performs DIAGONAL TRAVERSAL of a Binary Tree.
 //
-// DIAGONAL TRAVERSAL RULE:
-//   • All nodes lying on the same diagonal are printed together.
-//   • For any node:
-//        - RIGHT child stays on the SAME diagonal
-//        - LEFT child goes to the NEXT diagonal
+// WHAT IS DIAGONAL TRAVERSAL?
+//   Nodes that lie on the same diagonal are grouped together.
 //
-// APPROACH: Queue + Right Traversal
+// DIAGONAL RULE:
 //
-// ALGORITHM:
-//   1. Push root into a queue.
-//   2. While queue is not empty:
-//        a) Pop a node from queue → starting node of a diagonal
-//        b) Traverse its right chain:
-//             • Add current node data to answer
-//             • Push left child into queue (for next diagonal)
-//             • Move to right child
+//   For any node:
+//       RIGHT child → stays on the SAME diagonal
+//       LEFT child  → moves to the NEXT diagonal
+//
+// VISUAL EXAMPLE:
+//
+//            8
+//           / \
+//          3   10
+//         / \    \
+//        1   6    14
+//           / \   /
+//          4   7 13
+//
+// Diagonal groups:
+//
+// Diagonal 0 → 8 10 14
+// Diagonal 1 → 3 6 7 13
+// Diagonal 2 → 1 4
+//
+// Final Traversal:
+//   8 10 14 3 6 7 13 1 4
+//
+// APPROACH USED:
+//   Queue + Right Traversal
+//
+// CORE IDEA:
+//
+//   1️⃣ Push root node into queue.
+//
+//   2️⃣ While queue is not empty:
+//
+//       a) Pop a node → start of a diagonal
+//
+//       b) Traverse its RIGHT chain:
+//             • Add node value to result
+//             • Push LEFT child into queue
+//               (because it belongs to next diagonal)
+//             • Move to RIGHT child
 //
 // WHY QUEUE?
-//   Queue stores left children that belong to future diagonals,
-//   ensuring correct diagonal-by-diagonal traversal.
 //
-// TIME COMPLEXITY: O(n)
-// SPACE COMPLEXITY: O(n)
+//   Queue stores the LEFT children that belong
+//   to future diagonals.
+//
+// TIME COMPLEXITY: O(N)
+//   Each node is visited exactly once.
+//
+// SPACE COMPLEXITY: O(N)
+//   Queue + result vector.
 // ======================================================================
 vector<int> diagonal(Node* root) {
 
+    // Stores final traversal result
     vector<int> ans;
 
     // Edge case: empty tree
-    if (!root) return ans;
+    if (!root)
+        return ans;
 
+    // Queue for processing diagonals
     queue<Node*> q;
-    q.push(root);   // Start traversal from root
 
+    // Start traversal from root
+    q.push(root);
+
+    // Continue until queue becomes empty
     while (!q.empty()) {
 
-        // Take the front node from queue
+        // Get starting node of current diagonal
         Node* temp = q.front();
         q.pop();
 
-        // Traverse all nodes in the current diagonal
+        // --------------------------------------------------
+        // Traverse all nodes in the same diagonal
+        // --------------------------------------------------
         while (temp) {
 
-            // Add current node value to answer
+            // Add current node value to result
             ans.push_back(temp->data);
 
-            // LEFT child belongs to the next diagonal
+            // --------------------------------------------------
+            // LEFT child belongs to next diagonal
+            // --------------------------------------------------
             if (temp->left)
                 q.push(temp->left);
 
-            // Move along the same diagonal using RIGHT pointer
+            // --------------------------------------------------
+            // Move to RIGHT child (same diagonal)
+            // --------------------------------------------------
             temp = temp->right;
         }
     }
@@ -92,7 +138,7 @@ vector<int> diagonal(Node* root) {
 }
 
 // ======================================================================
-// MAIN FUNCTION
+// MAIN FUNCTION (Test Case)
 // ----------------------------------------------------------------------
 // Builds a sample binary tree and prints its diagonal traversal.
 //
@@ -106,7 +152,13 @@ vector<int> diagonal(Node* root) {
 //           / \   /
 //          4   7 13
 //
-// DIAGONAL TRAVERSAL OUTPUT:
+// DIAGONAL GROUPS:
+//
+// Diagonal 0 → 8 10 14
+// Diagonal 1 → 3 6 7 13
+// Diagonal 2 → 1 4
+//
+// FINAL OUTPUT:
 //   8 10 14 3 6 7 13 1 4
 // ======================================================================
 int main() {
@@ -127,9 +179,10 @@ int main() {
 
     // Print result
     cout << "Diagonal Traversal: ";
-    for (int x : result) {
+
+    for (int x : result)
         cout << x << " ";
-    }
+
     cout << endl;
 
     return 0;
