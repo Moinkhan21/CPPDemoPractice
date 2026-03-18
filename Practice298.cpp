@@ -1,16 +1,19 @@
 #include <iostream>
-#include <map>
-#include <queue>
+#include <vector>
 using namespace std;
 
 // ======================================================================
 // CLASS: Node
 // ----------------------------------------------------------------------
 // Represents a node of a Binary Tree.
+//
 // Each node contains:
 //   • data  → value stored in the node
 //   • left  → pointer to left child
 //   • right → pointer to right child
+//
+// The constructor initializes the node value
+// and sets both children to NULL.
 // ======================================================================
 class Node {
 public:
@@ -18,8 +21,6 @@ public:
     Node* left;
     Node* right;
 
-    // Constructor initializes node with given data
-    // and sets both children to NULL
     Node(int data) {
         this->data = data;
         this->left = NULL;
@@ -31,28 +32,27 @@ public:
 // FUNCTION: buildTree()
 // ----------------------------------------------------------------------
 // PURPOSE:
-//   Builds a binary tree recursively using PREORDER input.
+//   Builds a binary tree using PREORDER input.
 //
 // INPUT RULE:
-//   • Enter an integer value for a node
-//   • Enter -1 to represent NULL (no node)
+//   • Enter value for node
+//   • Enter -1 → represents NULL node
 //
-// PROCESS (PREORDER: Node → Left → Right):
-//   1. Read data
-//   2. If data == -1 → return NULL
-//   3. Create current node
-//   4. Recursively build left subtree
-//   5. Recursively build right subtree
+// PROCESS (Preorder):
+//   Node → Left → Right
 //
 // RETURNS:
-//   Pointer to the root of the constructed binary tree
+//   Pointer to root of constructed tree
+//
+// TIME COMPLEXITY: O(N)
 // ======================================================================
 Node* buildTree() {
+
     int data;
     cout << "Enter data: ";
     cin >> data;
 
-    // Base case: no node
+    // Base case: NULL node
     if (data == -1)
         return NULL;
 
@@ -76,68 +76,101 @@ Node* buildTree() {
 // PURPOSE:
 //   Computes the RIGHT VIEW of a binary tree.
 //
-// RIGHT VIEW DEFINITION:
-//   The set of nodes visible when the tree is viewed from the RIGHT side.
-//   For each level, the FIRST node encountered is part of the right view.
+// WHAT IS RIGHT VIEW?
 //
-// PARAMETERS:
-//   root  → current node
-//   ans   → vector storing right view nodes
-//   level → current depth/level of the tree
+//   The set of nodes visible when the tree is viewed
+//   from the RIGHT side.
+//
+// RULE:
+//   For each level → only ONE node is visible
+//   (the rightmost node)
+//
+// APPROACH:
+//
+//   Modified Preorder Traversal:
+//
+//       Root → Right → Left
 //
 // CORE IDEA:
-//   • Traverse the tree in PREORDER manner but with order:
-//         Root → Right → Left
-//   • When visiting a level for the FIRST time
-//     (i.e., level == ans.size()),
-//     store that node’s value in ans.
-//   • Visiting RIGHT child before LEFT ensures the
-//     rightmost node of each level is captured.
 //
-// TIME COMPLEXITY: O(n)
-// SPACE COMPLEXITY: O(h)  (recursion stack, h = height of tree)
+//   • Maintain current level
+//   • If level == ans.size()
+//       → first node of this level → store it
+//
+// WHY RIGHT FIRST?
+//
+//   Ensures the rightmost node is visited first,
+//   so it gets stored before left nodes.
+//
+// PARAMETERS:
+//
+//   root  → current node
+//   ans   → stores right view nodes
+//   level → current depth of tree
+//
+// TIME COMPLEXITY: O(N)
+// SPACE COMPLEXITY: O(H)
 // ======================================================================
 void printRightView(Node* root, vector<int> &ans, int level) {
 
-    // Base case: empty subtree
+    // Base case
     if (root == NULL)
         return;
 
-    // If this level is visited for the first time,
-    // current node belongs to the right view
+    // --------------------------------------------------
+    // If visiting this level for the first time
+    // --------------------------------------------------
     if (level == ans.size()) {
         ans.push_back(root->data);
     }
 
-    // First traverse RIGHT subtree
+    // --------------------------------------------------
+    // Traverse RIGHT subtree first
+    // --------------------------------------------------
     printRightView(root->right, ans, level + 1);
 
-    // Then traverse LEFT subtree
+    // --------------------------------------------------
+    // Traverse LEFT subtree
+    // --------------------------------------------------
     printRightView(root->left, ans, level + 1);
 }
 
 // ======================================================================
 // MAIN FUNCTION
 // ----------------------------------------------------------------------
-// Builds the binary tree, computes its right view,
-// and prints the result.
+// Builds a binary tree and prints its right view.
+//
+// SAMPLE TREE:
+//
+//            1
+//           / \
+//          2   3
+//           \   \
+//            5   4
+//
+// RIGHT VIEW:
+//
+//   1 3 4
 // ======================================================================
 int main() {
 
-    // Build the binary tree
+    // Build binary tree
     Node* root = buildTree();
 
-    vector<int> ans;   // Stores right view nodes
-    int level = 0;     // Root level starts from 0
+    vector<int> ans;
+    int level = 0;
 
     // Compute right view
     printRightView(root, ans, level);
 
-    // Print the right view
-    cout << "Printing the right view: " << endl;
-    for (auto i : ans) {
-        cout << i << " ";
+    // Print result
+    cout << "Right View of Tree:\n";
+
+    for (int val : ans) {
+        cout << val << " ";
     }
+
+    cout << endl;
 
     return 0;
 }
