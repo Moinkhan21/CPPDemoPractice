@@ -6,11 +6,15 @@ using namespace std;
 // ======================================================================
 // CLASS: Node
 // ----------------------------------------------------------------------
-// Represents a single node of a binary tree.
+// Represents a node in a Binary Tree.
+//
 // Each node contains:
-//     • data  → integer value
-//     • left  → pointer to left subtree
-//     • right → pointer to right subtree
+//   • data  → integer value stored in the node
+//   • left  → pointer to left child
+//   • right → pointer to right child
+//
+// The constructor initializes the node value
+// and sets both children to NULL.
 // ======================================================================
 class Node {
 public:
@@ -28,17 +32,23 @@ public:
 // ======================================================================
 // FUNCTION: buildTree()
 // ----------------------------------------------------------------------
-// PURPOSE: Builds a binary tree recursively using PREORDER input.
-// INPUT RULE: Enter -1 when there is no child (NULL).
+// PURPOSE:
+//   Builds a binary tree using PREORDER input.
+//
+// INPUT RULE:
+//   • Enter value for node
+//   • Enter -1 → represents NULL node
 //
 // PROCESS:
-//     1. Read data
-//     2. If data = -1, return NULL (no node)
-//     3. Create current node
-//     4. Recursively build left subtree
-//     5. Recursively build right subtree
+//   Node → Left → Right
+//
+// RETURNS:
+//   Pointer to root of constructed tree
+//
+// TIME COMPLEXITY: O(N)
 // ======================================================================
 Node* buildTree() {
+
     int data;
     cout << "Enter data: ";
     cin >> data;
@@ -50,11 +60,11 @@ Node* buildTree() {
     // Create node
     Node* root = new Node(data);
 
-    // Build left child
+    // Build left subtree
     cout << "Enter LEFT child of " << data << endl;
     root->left = buildTree();
 
-    // Build right child
+    // Build right subtree
     cout << "Enter RIGHT child of " << data << endl;
     root->right = buildTree();
 
@@ -65,44 +75,59 @@ Node* buildTree() {
 // FUNCTION: printTopView()
 // ----------------------------------------------------------------------
 // PURPOSE:
-//     Prints the TOP VIEW of a binary tree.
+//   Prints the TOP VIEW of a Binary Tree.
 //
-// TOP VIEW DEFINITION:
-//     When viewing the tree from above, only the first node encountered
-//     at each horizontal distance (HD) is visible.
+// WHAT IS TOP VIEW?
 //
-// TECHNIQUE: BFS + Horizontal Distance
+//   Nodes visible when the tree is viewed from ABOVE.
 //
-// HORIZONTAL DISTANCE (HD) RULES:
-//     • Root has HD = 0
-//     • Left child  → HD - 1
-//     • Right child → HD + 1
+// RULE:
 //
-// DATA STRUCTURES USED:
-//     map<int, int> topNode;
-//         - Stores {HD → Node Value}
-//         - map is sorted by key → ensures printing from left to right
+//   For each horizontal distance (HD),
+//   only the FIRST node encountered is visible.
 //
-//     queue<pair<Node*, int>> q;
-//         - For BFS traversal, storing node along with its HD
+// HORIZONTAL DISTANCE:
 //
-// ALGORITHM:
-//     1. Start BFS from root at HD = 0
-//     2. For every node, if its HD is NOT already in map,
-//        store it (first node at that HD → visible from top)
-//     3. Push its left child with HD - 1
-//     4. Push its right child with HD + 1
-//     5. Finally print map values in sorted HD order
+//   Root → HD = 0
+//   Left child → HD - 1
+//   Right child → HD + 1
+//
+// APPROACH USED:
+//
+//   BFS (Level Order Traversal) + Map
+//
+// CORE IDEA:
+//
+//   • Traverse tree level by level
+//   • For each node:
+//         if HD not present → store it
+//   • First node at each HD is the top view
+//
+// DATA STRUCTURES:
+//
+//   map<int,int>
+//       → stores {HD → node value}
+//       → sorted automatically
+//
+//   queue<pair<Node*, int>>
+//       → BFS traversal (node + HD)
+//
+// TIME COMPLEXITY: O(N log N)
+// SPACE COMPLEXITY: O(N)
 // ======================================================================
 void printTopView(Node* root) {
+
+    // Edge case
     if (root == NULL)
         return;
 
-    // Stores first node for each horizontal distance
-    map<int, int> topNode;
+    // Map: HD → first node value
+    map<int, int> nodeMap;
 
-    // Queue for BFS → stores {node, HD}
+    // Queue: {node, horizontal distance}
     queue<pair<Node*, int>> q;
+
+    // Start with root at HD = 0
     q.push({root, 0});
 
     while (!q.empty()) {
@@ -110,42 +135,66 @@ void printTopView(Node* root) {
         auto temp = q.front();
         q.pop();
 
-        Node* frontNode = temp.first;
-        int hd = temp.second;   // horizontal distance
+        Node* curr = temp.first;
+        int hd = temp.second;
 
-        // Only store value if HD is encountered first time
-        if (topNode.find(hd) == topNode.end()) {
-            topNode[hd] = frontNode->data;
+        // --------------------------------------------------
+        // Store value ONLY if first time encountering HD
+        // --------------------------------------------------
+        if (nodeMap.find(hd) == nodeMap.end()) {
+            nodeMap[hd] = curr->data;
         }
 
-        // Left child: HD - 1
-        if (frontNode->left) {
-            q.push({frontNode->left, hd - 1});
-        }
+        // --------------------------------------------------
+        // Process left child (HD - 1)
+        // --------------------------------------------------
+        if (curr->left)
+            q.push({curr->left, hd - 1});
 
-        // Right child: HD + 1
-        if (frontNode->right) {
-            q.push({frontNode->right, hd + 1});
-        }
+        // --------------------------------------------------
+        // Process right child (HD + 1)
+        // --------------------------------------------------
+        if (curr->right)
+            q.push({curr->right, hd + 1});
     }
 
-    // Print top-view by iterating map in sorted HD order
+    // --------------------------------------------------
+    // Print result (sorted by HD)
+    // --------------------------------------------------
     cout << "\nTop View of Tree:\n";
-    for (auto &i : topNode) {
-        cout << i.second << " ";
+
+    for (auto &it : nodeMap) {
+        cout << it.second << " ";
     }
+
     cout << endl;
 }
 
 // ======================================================================
 // MAIN FUNCTION
 // ----------------------------------------------------------------------
-// Builds the tree and prints its top view.
+// Builds a binary tree and prints its top view.
+//
+// SAMPLE TREE:
+//
+//            1
+//           / \
+//          2   3
+//           \   \
+//            4   5
+//
+// TOP VIEW:
+//
+//   2 1 3 5
 // ======================================================================
 int main() {
+
     cout << "Build Binary Tree (-1 for NULL):\n";
+
+    // Construct tree
     Node* root = buildTree();
 
+    // Print top view
     printTopView(root);
 
     return 0;
