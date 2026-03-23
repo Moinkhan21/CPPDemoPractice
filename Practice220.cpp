@@ -1,144 +1,183 @@
 #include <iostream>
 using namespace std;
 
-class Node{
-    public:
+// ======================================================================
+// CLASS: Node
+// ----------------------------------------------------------------------
+// Represents a node in a singly linked list.
+//
+// Each node contains:
+//   • data → value (0 / 1 / 2)
+//   • next → pointer to next node
+// ======================================================================
+class Node {
+public:
     int data;
     Node* next;
 
-    Node(int data){
-        this -> data = data;
-        this -> next = NULL;
+    Node(int data) {
+        this->data = data;
+        this->next = NULL;
     }
 };
 
+// ======================================================================
+// FUNCTION: print()
+// ----------------------------------------------------------------------
+// PURPOSE:
+//   Prints the linked list.
+//
+// TIME COMPLEXITY: O(N)
+// ======================================================================
 void print(Node* head) {
+
     Node* temp = head;
-    while(temp != NULL) {
-        cout << temp -> data << " ";
-        temp = temp -> next;
+
+    while (temp != NULL) {
+        cout << temp->data << " ";
+        temp = temp->next;
     }
+
     cout << endl;
 }
 
+// ======================================================================
+// FUNCTION: sortLL()
+// ----------------------------------------------------------------------
+// PURPOSE:
+//   Sorts a linked list containing only 0s, 1s, and 2s.
+//
+// APPROACH: Three Dummy Lists (Dutch National Flag Concept)
+//
+// CORE IDEA:
+//
+//   1️⃣ Create 3 separate lists:
+//        • zero list → nodes with data = 0
+//        • one list  → nodes with data = 1
+//        • two list  → nodes with data = 2
+//
+//   2️⃣ Traverse original list and distribute nodes
+//
+//   3️⃣ Merge the three lists
+//
+// ADVANTAGE:
+//   • No extra node creation (reusing existing nodes)
+//   • Stable and efficient
+//
+// TIME COMPLEXITY: O(N)
+// SPACE COMPLEXITY: O(1)
+// ======================================================================
 Node* sortLL(Node* head) {
 
-    if(head == NULL) {
-        cout << "LL is empty" << endl;
+    // --------------------------------------------------
+    // Edge Cases
+    // --------------------------------------------------
+    if (head == NULL) {
+        cout << "LL is empty\n";
         return NULL;
     }
-    if(head -> next == NULL) {
-        //Single node in LL
+
+    if (head->next == NULL) {
         return head;
     }
 
-    //Create dummy nodes
-     Node* zeroHead = new Node(-1);
-     Node* zeroTail = zeroHead;
+    // --------------------------------------------------
+    // Step 1: Create dummy nodes for 3 lists
+    // --------------------------------------------------
+    Node* zeroHead = new Node(-1);
+    Node* zeroTail = zeroHead;
 
-     Node* oneHead = new Node(-1);
-     Node* oneTail = oneHead;
+    Node* oneHead = new Node(-1);
+    Node* oneTail = oneHead;
 
-     Node* twoHead = new Node(-1);
-     Node* twoTail = twoHead;
+    Node* twoHead = new Node(-1);
+    Node* twoTail = twoHead;
 
-     //Traverse the original LL
-     Node* curr = head;
-     while(curr != NULL) {
-        if(curr -> data == 0) {
-            //Take out the zero wali node
-            Node* temp = curr;
-            curr = curr -> next;
-            temp -> next = NULL;
+    // --------------------------------------------------
+    // Step 2: Traverse original list
+    // --------------------------------------------------
+    Node* curr = head;
 
-            //Append the zero node in zeroHead LL
-            zeroTail -> next = temp;
+    while (curr != NULL) {
+
+        Node* temp = curr;
+        curr = curr->next;
+        temp->next = NULL; // detach node
+
+        if (temp->data == 0) {
+            zeroTail->next = temp;
             zeroTail = temp;
-
         }
-        else if(curr -> data == 1) {
-            //Take out the one wali node
-            Node* temp = curr;
-            curr = curr -> next;
-            temp -> next = NULL;
-
-            //Append the one node in zeroHead LL
-            oneTail -> next = temp;
+        else if (temp->data == 1) {
+            oneTail->next = temp;
             oneTail = temp;
-
-        }else if(curr -> data == 2) {
-            //Take out the two wali node
-            Node* temp = curr;
-            curr = curr -> next;
-            temp -> next = NULL;
-
-            //Append the two node in zeroHead LL
-            twoTail -> next = temp;
+        }
+        else {
+            twoTail->next = temp;
             twoTail = temp;
         }
-     }
+    }
 
-     //Modify one wali list
-     Node* temp = oneHead;
-     oneHead = oneHead -> next;
-     temp -> next = NULL;
-     delete temp;
+    // --------------------------------------------------
+    // Step 3: Remove dummy nodes (1s and 2s)
+    // --------------------------------------------------
+    Node* temp = oneHead;
+    oneHead = oneHead->next;
+    delete temp;
 
-     //Modify two wali list
-     temp = twoHead;
-     twoHead = twoHead -> next;
-     temp -> next = NULL;
-     delete temp;
+    temp = twoHead;
+    twoHead = twoHead->next;
+    delete temp;
 
-     //Join list
-     if(oneHead != NULL) {
-        //One wali list is non-empty
-        //Zero wali list ko one wali list se attach krdia
-        zeroTail -> next = oneHead;
-        
-        if(twoHead != NULL) {
-            oneTail -> next = twoHead;
+    // --------------------------------------------------
+    // Step 4: Merge lists
+    // --------------------------------------------------
+
+    // Attach 0 → 1
+    if (oneHead != NULL) {
+        zeroTail->next = oneHead;
+
+        // Attach 1 → 2
+        if (twoHead != NULL) {
+            oneTail->next = twoHead;
         }
-     }
-     else {
-        //One wali list is empty
-        if(twoHead != NULL) {
-            zeroTail -> next = twoHead;
+    }
+    else {
+        // If no 1s, attach 0 → 2 directly
+        if (twoHead != NULL) {
+            zeroTail->next = twoHead;
         }
-     }
+    }
 
-     //remove zerohead dummy node
-     temp = zeroHead;
-     zeroHead = zeroHead -> next;
-     temp -> next = NULL;
-     delete temp;
+    // --------------------------------------------------
+    // Step 5: Remove zero dummy node
+    // --------------------------------------------------
+    temp = zeroHead;
+    zeroHead = zeroHead->next;
+    delete temp;
 
-     //return head of the modified linked list
-     return zeroHead;
+    return zeroHead;
 }
 
+// ======================================================================
+// MAIN FUNCTION (Test Case)
+// ======================================================================
 int main() {
+
+    // Input: 1 → 2 → 2 → 0 → 0 → 0
     Node* head = new Node(1);
-    Node* second = new Node(2);
-    Node* third = new Node(2);
-    Node* fourth = new Node(0);
-    Node* fifth = new Node(0);
-    Node* sixth = new Node(0);
+    head->next = new Node(2);
+    head->next->next = new Node(2);
+    head->next->next->next = new Node(0);
+    head->next->next->next->next = new Node(0);
+    head->next->next->next->next->next = new Node(0);
 
-    head -> next = second;
-    second -> next = third;
-    third -> next = fourth;
-    fourth -> next = fifth;
-    fifth -> next = sixth;
-
-    cout << "Input LL : ";
+    cout << "Input LL: ";
     print(head);
 
-    //Node* temp = NULL; //for passing NULL in LL
     head = sortLL(head);
 
-    cout << endl;
-    cout << "After sorting LL : ";
+    cout << "Sorted LL: ";
     print(head);
 
     return 0;
