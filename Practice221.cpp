@@ -1,134 +1,214 @@
 #include <iostream>
 using namespace std;
 
-class Node{
-    public:
+// ======================================================================
+// CLASS: Node
+// ----------------------------------------------------------------------
+// Represents a node in a singly linked list.
+//
+// Each node contains:
+//   • data → integer value
+//   • next → pointer to next node
+// ======================================================================
+class Node {
+public:
     int data;
     Node* next;
 
-    Node(int data){
-        this -> data = data;
-        this -> next = NULL;
+    Node(int data) {
+        this->data = data;
+        this->next = NULL;
     }
 };
 
+// ======================================================================
+// FUNCTION: print()
+// ----------------------------------------------------------------------
+// PURPOSE:
+//   Prints the linked list elements.
+//
+// TIME COMPLEXITY: O(N)
+// ======================================================================
 void print(Node* head) {
     Node* temp = head;
-    while(temp != NULL) {
-        cout << temp -> data << " ";
-        temp = temp -> next;
+
+    while (temp != NULL) {
+        cout << temp->data << " ";
+        temp = temp->next;
     }
+
     cout << endl;
 }
 
+// ======================================================================
+// FUNCTION: reverse()
+// ----------------------------------------------------------------------
+// PURPOSE:
+//   Reverses a singly linked list.
+//
+// APPROACH:
+//   Iterative (3-pointer method)
+//
+// TIME COMPLEXITY: O(N)
+// SPACE COMPLEXITY: O(1)
+// ======================================================================
 Node* reverse(Node* head) {
+
     Node* prev = NULL;
     Node* curr = head;
-    Node* next = curr -> next;
-    while(curr != NULL) {
-        next = curr -> next;
-        curr -> next = prev;
-        prev = curr;
-        curr = next;
+
+    while (curr != NULL) {
+
+        Node* next = curr->next; // store next node
+        curr->next = prev;       // reverse link
+        prev = curr;             // move prev forward
+        curr = next;             // move curr forward
     }
+
     return prev;
 }
 
-Node* solve(Node* &head1, Node* &head2) {
-    //Step 1: Reverse both linked list
+// ======================================================================
+// FUNCTION: solve()
+// ----------------------------------------------------------------------
+// PURPOSE:
+//   Adds two numbers represented as linked lists.
+//
+// REPRESENTATION:
+//
+//   Example:
+//     List1: 2 → 4  (represents 24)
+//     List2: 2 → 3 → 4 (represents 234)
+//
+// OUTPUT:
+//     2 → 5 → 8 (represents 258)
+//
+// APPROACH:
+//
+//   1️⃣ Reverse both linked lists
+//       → makes addition easier (units place first)
+//
+//   2️⃣ Add corresponding nodes with carry
+//
+//   3️⃣ Handle remaining nodes and carry
+//
+//   4️⃣ Reverse the result to restore correct order
+//
+// TIME COMPLEXITY: O(N + M)
+// SPACE COMPLEXITY: O(max(N, M))
+// ======================================================================
+Node* solve(Node*& head1, Node*& head2) {
+
+    // --------------------------------------------------
+    // Step 1: Reverse both lists
+    // --------------------------------------------------
     head1 = reverse(head1);
     head2 = reverse(head2);
 
-    //Step 2: Add both linked list
     Node* ansHead = NULL;
     Node* ansTail = NULL;
+
     int carry = 0;
 
-    while(head1 != NULL && head2 != NULL) {
+    // --------------------------------------------------
+    // Step 2: Add nodes while both lists exist
+    // --------------------------------------------------
+    while (head1 != NULL && head2 != NULL) {
 
-        if(head1 == NULL) 
-            return head2;
+        int sum = carry + head1->data + head2->data;
 
-        if(head2 == NULL)
-            return head1;
-
-        //Calculate sum
-        int sum = carry + head1 -> data + head2 -> data;
-
-        //Find digit to create node for
         int digit = sum % 10;
-
-        //Calculate carry
         carry = sum / 10;
 
-        //Create a new Node for the digit
         Node* newNode = new Node(digit);
 
-        //Attach the newNode to the answer wali linked list
-        if(ansHead == NULL){
-            //First node insert krre ho
+        // Insert into answer list
+        if (ansHead == NULL) {
             ansHead = newNode;
             ansTail = newNode;
         }
         else {
-            ansTail -> next = newNode;
+            ansTail->next = newNode;
             ansTail = newNode;
         }
-        head1 = head1 -> next;
-        head2 = head2 -> next;
+
+        head1 = head1->next;
+        head2 = head2->next;
     }
 
-    //Jab head1 list ki length head2 list se jyada hogi
-    while(head1 != NULL) {
-        int sum = carry + head1 -> data;
+    // --------------------------------------------------
+    // Step 3: Process remaining nodes of head1
+    // --------------------------------------------------
+    while (head1 != NULL) {
+
+        int sum = carry + head1->data;
+
         int digit = sum % 10;
         carry = sum / 10;
+
         Node* newNode = new Node(digit);
-        ansTail -> next = newNode;
+        ansTail->next = newNode;
         ansTail = newNode;
-        head1 = head1 -> next;
+
+        head1 = head1->next;
     }
 
-    //jab head2 list ki length head1 list se jyada hogi
-    while(head2 != NULL) {
-        int sum = carry + head2 -> data;
+    // --------------------------------------------------
+    // Step 4: Process remaining nodes of head2
+    // --------------------------------------------------
+    while (head2 != NULL) {
+
+        int sum = carry + head2->data;
+
         int digit = sum % 10;
         carry = sum / 10;
+
         Node* newNode = new Node(digit);
-        ansTail -> next = newNode;
+        ansTail->next = newNode;
         ansTail = newNode;
-        head2 = head2 -> next;
+
+        head2 = head2->next;
     }
 
-    //Handle carry ko alag se
-    while(carry != 0) {
-        int sum = carry;
-        int digit = sum % 10;
-        carry = sum / 10;
+    // --------------------------------------------------
+    // Step 5: Handle remaining carry
+    // --------------------------------------------------
+    while (carry != 0) {
+
+        int digit = carry % 10;
+        carry = carry / 10;
+
         Node* newNode = new Node(digit);
-        ansTail -> next = newNode;
+        ansTail->next = newNode;
         ansTail = newNode;
     }
 
-    //Step 3: Reverse the ans linked list
+    // --------------------------------------------------
+    // Step 6: Reverse result list
+    // --------------------------------------------------
     ansHead = reverse(ansHead);
 
     return ansHead;
 }
 
+// ======================================================================
+// MAIN FUNCTION (Test Case)
+// ======================================================================
 int main() {
+
+    // List 1: 2 → 4 (represents 24)
     Node* head1 = new Node(2);
-    Node* second1 = new Node(4);
-    head1 -> next = second1;
+    head1->next = new Node(4);
 
+    // List 2: 2 → 3 → 4 (represents 234)
     Node* head2 = new Node(2);
-    Node* second2 = new Node(3);
-    Node* third2 = new Node(4);
-    head2 -> next = second2;
-    second2 -> next = third2;
+    head2->next = new Node(3);
+    head2->next->next = new Node(4);
 
+    // Perform addition
     Node* ans = solve(head1, head2);
 
+    // Print result
     print(ans);
 
     return 0;
