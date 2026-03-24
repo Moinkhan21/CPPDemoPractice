@@ -1,165 +1,243 @@
 #include <iostream>
 using namespace std;
 
-
-class Node{
-
-    public:
+// ======================================================================
+// CLASS: Node
+// ----------------------------------------------------------------------
+// Represents a node in a singly linked list.
+//
+// Each node contains:
+//   • data → integer value
+//   • next → pointer to next node
+//
+// Destructor is used to track memory deallocation.
+// ======================================================================
+class Node {
+public:
     int data;
     Node* next;
-    
+
     Node() {
-        this -> data = 0;
-        this -> next = NULL;
+        this->data = 0;
+        this->next = NULL;
     }
 
     Node(int data) {
-        this -> data = data;
-        this -> next = NULL;
+        this->data = data;
+        this->next = NULL;
     }
 
     ~Node() {
-        cout << "Node with data" << this -> data << " Delete" << endl;
+        cout << "Node with data " << this->data << " deleted\n";
     }
-
 };
 
+// ======================================================================
+// FUNCTION: insertAtHead()
+// ----------------------------------------------------------------------
+// PURPOSE:
+//   Inserts a node at the beginning of the linked list.
+//
+// EDGE CASE:
+//   If list is empty → initialize head and tail
+// ======================================================================
 void insertAtHead(Node*& head, Node*& tail, int data) {
-    if(head == NULL) {
-    Node* newNode = new Node(data);
-    tail = newNode;
-    head = newNode;
-    return;
- }
 
- Node* newNode = new Node(data);
- newNode -> next = head;
- head = newNode;
+    if (head == NULL) {
+        Node* newNode = new Node(data);
+        head = tail = newNode;
+        return;
+    }
+
+    Node* newNode = new Node(data);
+    newNode->next = head;
+    head = newNode;
 }
 
+// ======================================================================
+// FUNCTION: insertAtTail()
+// ----------------------------------------------------------------------
+// PURPOSE:
+//   Inserts a node at the end of the linked list.
+// ======================================================================
 void insertAtTail(Node*& head, Node*& tail, int data) {
-    if(head == NULL) {
-    Node* newNode = new Node(data);
-    tail = newNode;
-    head = newNode;
-    return;
- }
 
- Node* newNode = new Node(data);
- tail -> next = newNode;
- tail = newNode;
+    if (head == NULL) {
+        Node* newNode = new Node(data);
+        head = tail = newNode;
+        return;
+    }
+
+    Node* newNode = new Node(data);
+    tail->next = newNode;
+    tail = newNode;
 }
 
-int findLength(Node*& head){
+// ======================================================================
+// FUNCTION: findLength()
+// ----------------------------------------------------------------------
+// PURPOSE:
+//   Returns the length of the linked list.
+//
+// TIME COMPLEXITY: O(N)
+// ======================================================================
+int findLength(Node* head) {
+
     int len = 0;
     Node* temp = head;
 
-    while(temp != NULL) {
-        temp = temp -> next;
+    while (temp != NULL) {
         len++;
+        temp = temp->next;
     }
+
     return len;
 }
 
+// ======================================================================
+// FUNCTION: insertAtPosition()
+// ----------------------------------------------------------------------
+// PURPOSE:
+//   Inserts a node at a given position.
+//
+// RULES:
+//   • position = 0 → insert at head
+//   • position >= length → insert at tail
+// ======================================================================
 void insertAtPosition(Node*& head, Node*& tail, int data, int position) {
-    if(head == NULL) {
-    Node* newNode = new Node(data);
-    tail = newNode;
-    head = newNode;
-    return;
- }
 
-    if(position == 0) {
+    if (head == NULL) {
+        Node* newNode = new Node(data);
+        head = tail = newNode;
+        return;
+    }
+
+    // Insert at head
+    if (position == 0) {
         insertAtHead(head, tail, data);
         return;
     }
 
     int len = findLength(head);
 
-    if(position >= len) {
+    // Insert at tail
+    if (position >= len) {
         insertAtTail(head, tail, data);
         return;
     }
 
-    int i = 1;
+    // Insert in middle
     Node* prev = head;
-    while(i < position) {
-        prev = prev -> next;
-        i++;
+    for (int i = 1; i < position; i++) {
+        prev = prev->next;
     }
 
-    Node* curr = prev -> next;
     Node* newNode = new Node(data);
-    newNode -> next = curr;
-    prev -> next = newNode;
+    newNode->next = prev->next;
+    prev->next = newNode;
 }
 
-void print(Node*& head) {
-    Node* temp = head;
-    while(temp != NULL){
-        cout << temp -> data << "->";
-        temp = temp -> next;
-    }
-    cout << endl;
-}
-
+// ======================================================================
+// FUNCTION: deleteNode()
+// ----------------------------------------------------------------------
+// PURPOSE:
+//   Deletes a node from a given position (1-based index).
+//
+// CASES:
+//   1. Delete head
+//   2. Delete tail
+//   3. Delete middle node
+// ======================================================================
 void deleteNode(int position, Node*& head, Node*& tail) {
-     if(head == NULL) {
-        cout << "There is no linked list or Invalid input" << endl;
-     }
 
-     if(position == 1) {
+    // Edge case
+    if (head == NULL) {
+        cout << "List is empty\n";
+        return;
+    }
+
+    // Case 1: Delete head
+    if (position == 1) {
         Node* temp = head;
-        head = head -> next;
-        temp -> next = NULL;
+        head = head->next;
+
+        if (head == NULL) // if list becomes empty
+            tail = NULL;
+
+        temp->next = NULL;
         delete temp;
         return;
-     }
+    }
 
-     int len = findLength(head);
+    int len = findLength(head);
 
-     if(position == len) {
+    // Case 2: Delete tail
+    if (position >= len) {
 
-        int i = 1;
         Node* prev = head;
-        while(i < position - 1){
-            prev = prev -> next;
-            i++;
+        for (int i = 1; i < len - 1; i++) {
+            prev = prev->next;
         }
 
-        prev -> next = NULL;
         Node* temp = tail;
+        prev->next = NULL;
         tail = prev;
+
         delete temp;
         return;
-     }
+    }
 
-     int i = 1;
-        Node* prev = head;
-        while(i < position - 1){
-            prev = prev -> next;
-            i++;
-        }
+    // Case 3: Delete middle node
+    Node* prev = head;
+    for (int i = 1; i < position - 1; i++) {
+        prev = prev->next;
+    }
 
-        Node* curr = prev -> next;
-        prev -> next = curr -> next;
-        curr -> next = NULL;
-        delete curr;
-        return; 
+    Node* curr = prev->next;
+    prev->next = curr->next;
+
+    curr->next = NULL;
+    delete curr;
 }
 
+// ======================================================================
+// FUNCTION: print()
+// ----------------------------------------------------------------------
+// PURPOSE:
+//   Prints the linked list.
+// ======================================================================
+void print(Node* head) {
+
+    Node* temp = head;
+
+    while (temp != NULL) {
+        cout << temp->data << " -> ";
+        temp = temp->next;
+    }
+
+    cout << "NULL\n";
+}
+
+// ======================================================================
+// MAIN FUNCTION (Test Case)
+// ======================================================================
 int main() {
 
     Node* head = NULL;
     Node* tail = NULL;
 
+    // Insert operations
     insertAtHead(head, tail, 10);
     insertAtTail(head, tail, 20);
     insertAtPosition(head, tail, 15, 1);
 
+    cout << "Linked List:\n";
     print(head);
-    cout << endl;
 
+    // Delete operation
+    cout << "\nAfter deleting position 1:\n";
     deleteNode(1, head, tail);
     print(head);
+
+    return 0;
 }
