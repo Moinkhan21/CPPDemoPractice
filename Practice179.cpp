@@ -1,36 +1,60 @@
 #include <iostream>
 using namespace std;
 
-class Base
-{
-    public:
-        Base()
-        {
-            cout << "Base ctor\n";
-        }
+// ======================================================================
+// CLASS: Base
+// ----------------------------------------------------------------------
+// Demonstrates use of VIRTUAL DESTRUCTOR.
+//
+// KEY POINT:
+//   Destructor is declared as virtual to ensure
+//   proper cleanup of derived class objects.
+// ======================================================================
+class Base {
+public:
 
-        virtual ~Base()
-        {
-            cout << "Base dtor\n";
-        }
+    // Constructor
+    Base() {
+        cout << "Base ctor\n";
+    }
+
+    // Virtual Destructor
+    virtual ~Base() {
+        cout << "Base dtor\n";
+    }
 };
 
-class Derived : public Base
-{
-    public:
-        Derived()
-        {
-            cout << "Derived ctor\n";
-        }
+// ======================================================================
+// CLASS: Derived
+// ----------------------------------------------------------------------
+// Inherits from Base class.
+//
+// Has its own constructor and destructor.
+// ======================================================================
+class Derived : public Base {
+public:
 
-        ~Derived()
-        {
-            cout << "Derived dtor\n";
-        }
+    // Constructor
+    Derived() {
+        cout << "Derived ctor\n";
+    }
+
+    // Destructor
+    ~Derived() {
+        cout << "Derived dtor\n";
+    }
 };
 
+// ======================================================================
+// MAIN FUNCTION
+// ======================================================================
 int main() {
-    Base *b = new Derived();
+
+    // Base pointer pointing to Derived object
+    Base* b = new Derived();
+
+    // Deleting using base pointer
     delete b;
+
     return 0;
 }
