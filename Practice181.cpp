@@ -1,31 +1,68 @@
 #include <iostream>
 using namespace std;
 
-class abc
-{
-    public:
-        static int x, y;
+// ======================================================================
+// CLASS: abc
+// ----------------------------------------------------------------------
+// Demonstrates STATIC DATA MEMBERS in C++.
+//
+// STATIC VARIABLES:
+//   • Shared across ALL objects of the class
+//   • Only ONE copy exists in memory
+//   • Not tied to any specific object
+// ======================================================================
+class abc {
+public:
+    static int x;
+    static int y;
 
-        void print() const
-        {
-            cout << x << " " << y << endl;
-        }
+    // --------------------------------------------------
+    // FUNCTION: print()
+    // --------------------------------------------------
+    // Prints values of static variables
+    void print() const {
+        cout << x << " " << y << endl;
+    }
 };
 
+// ======================================================================
+// STATIC MEMBER INITIALIZATION
+// ----------------------------------------------------------------------
+// Must be defined OUTSIDE the class
+// Memory is allocated here
+// ======================================================================
 int abc::x;
 int abc::y;
 
+
+// ======================================================================
+// MAIN FUNCTION
+// ======================================================================
 int main() {
+
+    // --------------------------------------------------
+    // Object 1
+    // --------------------------------------------------
     abc obj1;
+
     obj1.x = 1;
     obj1.y = 2;
-    obj1.print();
-    
+
+    obj1.print();   // Output: 1 2
+
+    // --------------------------------------------------
+    // Object 2
+    // --------------------------------------------------
     abc obj2;
+
     obj2.x = 10;
     obj2.y = 20;
-    obj1.print();
-    obj2.print();
+
+    // --------------------------------------------------
+    // Observe behavior
+    // --------------------------------------------------
+    obj1.print();   // Output: 10 20 ❗
+    obj2.print();   // Output: 10 20
 
     return 0;
 }
